@@ -48,6 +48,7 @@ goto :startapp
 		for /f "delims=" %%x in ('dir /od /b *.jar') do set latestjar=%%x
 		cd ..
 		call java -jar target\!latestjar!
+		REM		call java -Dorg.kie.server.bypass.auth.user=true -Dorg.kie.server.pwd=gestionRed -Dorg.kie.server.user=gestionRed -jar target\!latestjar!
 	)
 
 

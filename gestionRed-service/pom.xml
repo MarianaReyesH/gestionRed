@@ -6,7 +6,21 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>gestionRed-service</name>
-  
+  <!-- parent añadido tras la creación del arquetipo -->
+  <parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<!-- con las versiones 2.7.0, 16 y 15 da un error al persistir-->
+		<!--La versión 2.6.15 es la más actual con la que he conseguido que vaya bien por ahora
+    versión de fecha 6/10/23
+	
+	Referencia de la versión 2.6.15: https://docs.spring.io/spring-boot/docs/2.6.15/reference/htmlsingle/-->
+		<version>2.6.15</version>
+
+		<!--Con esta versión de spring boot, la 2.3.4.RELEASE va todo bien
+    <version>2.3.4.RELEASE</version>
+    -->
+  </parent>
   <properties>
     <version.org.kie>7.74.1.Final</version.org.kie>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -69,8 +83,22 @@
       <version>2.5.15</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>
 
+<!--  INCORPORADO POR ISABEL  -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-thymeleaf</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-configuration-processor</artifactId>
+  		<optional>true</optional>
+  	</dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
