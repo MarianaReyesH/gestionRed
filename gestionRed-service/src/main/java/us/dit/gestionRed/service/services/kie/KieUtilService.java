@@ -13,11 +13,11 @@ public interface KieUtilService {
 	UserTaskServicesClient getUserTaskServicesClient();
 
 	QueryServicesClient getQueryServicesClient();
-	
+
 	UIServicesClient getUIServicesClient();
 
 	UserTaskAdminServicesClient getUserTaskAdminServicesClient();
-	
+
 	/**
 	 * Difunde una señal en todos los RuntimeManagers
 	 * @param type nombre de la señal

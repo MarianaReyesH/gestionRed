@@ -4,23 +4,24 @@ package us.dit.gestionRed.model;
 /**
  * Clase para definir los mensajes que se incluyen en las señales
  */
-public class Signal{
+public class Signal {
 	private String signalName;
-	private Object message;	
+	private SyslogMsj msj_logstash;
 
-
-	public Object getMessage() {
-		return this.message;
-	}
-	public void setMessage(Object message) {
-		this.message = message;
-	}
-
-	public String getName() {
+	public String getSignalName() {
 		return signalName;
 	}
-	public void setName(String signalName) {
+
+	public void setSignalName(String signalName) {
 		this.signalName = signalName;
-	}	
+	}
+
+	public SyslogMsj getMsj_logstash() {
+		return msj_logstash;
+	}
+
+	public void setMsj_logstash(SyslogMsj msj_logstash) {
+		this.msj_logstash = msj_logstash;
+	}
 
 }
