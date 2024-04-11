@@ -45,11 +45,11 @@ public class SyslogMsj {
 		this.pid = pid;
 	}
 
-	public String getMessage() {
+	public String getMsj() {
 		return this.msj;
 	}
 
-	public void setMessage(String msj) {
+	public void setMsj(String msj) {
 		this.msj = msj;
 	}
 

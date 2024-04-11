@@ -21,17 +21,6 @@ public class MapperJson2Signal {
 			SyslogMsj syslog_msj = objectMapper.readValue(json, SyslogMsj.class);
 			signal.setMsj_logstash(syslog_msj);
 
-			// Dependiendo del process -> se asigna un nombre a la señal
-			switch (syslog_msj.getProcess()) {
-			case "mail":
-				signal.setSignalName("SignalCorreos");
-				break;
-			case "ldap":
-				signal.setSignalName("SignalLDAP");
-				break;
-			default:
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -39,29 +39,30 @@ public class SignalsController {
 		/**
 		 * Difunde una señal por todos los servidores KIE gestionados en la aplicación
 		 */
-		logger.info("LLEGA EL MSJ DEL LOGSTASH:" + msj_logstash);
+		logger.info("LLEGA EL MSJ DEL LOGSTASH:" + msj_logstash + "\r\n");
 
 		// Se mapea el msj que llega de logstash (un json) al objeto Java Signal
 		Signal signal = mapper.json2Signal(msj_logstash);
 
-		// Imprime los valores mapeados
-		logger.info("Signal Name: " + signal.getSignalName());
-		logger.info("Timestamp: " + signal.getMsj_logstash().getTimestamp());
-		logger.info("Hostname: " + signal.getMsj_logstash().getHostname());
-		logger.info("Process: " + signal.getMsj_logstash().getProcess());
-		logger.info("Pid: " + signal.getMsj_logstash().getPid());
-		logger.info("Message: " + signal.getMsj_logstash().getMessage());
-//
-//		// Se envía la señal al motor KIE
-//		logger.info("Enviando una señal al motor KIE");
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		UserDetails principal = (UserDetails) auth.getPrincipal();
-//		logger.info("Datos de usuario (principal)" + principal);
-//
-//		kie.sendSignal(signal.getSignalName(), signal.getMsj_logstash());
+		// Se le asigna un nombre a la señal -> proceso en el servidor kie que lo
+		// "escuchará"
+		signal.setSignalName("signalGestionRed");
 
-		// Prueba del proceso comunicacionSeñalCorreo
-//		kie.sendSignal("SignalCorreos", msj_logstash);
+		// Imprime los valores mapeados
+		logger.info("Signal Name: " + signal.getSignalName() + "\r\n");
+		logger.info("Timestamp: " + signal.getMsj_logstash().getTimestamp() + "\r\n");
+		logger.info("Hostname: " + signal.getMsj_logstash().getHostname() + "\r\n");
+		logger.info("Process: " + signal.getMsj_logstash().getProcess() + "\r\n");
+		logger.info("Pid: " + signal.getMsj_logstash().getPid() + "\r\n");
+		logger.info("Msj: " + signal.getMsj_logstash().getMsj() + "\r\n");
+
+		// Se envía la señal al motor KIE
+		logger.info("Enviando una señal al motor KIE");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails principal = (UserDetails) auth.getPrincipal();
+		logger.info("Datos de usuario (principal)" + principal);
+
+		kie.sendSignal(signal.getSignalName(), signal.getMsj_logstash());
 
 		return "OK";
 	}
