@@ -44,8 +44,7 @@ public class SignalsController {
 		// Se mapea el msj que llega de logstash (un json) al objeto Java Signal
 		Signal signal = mapper.json2Signal(msj_logstash);
 
-		// Se le asigna un nombre a la señal -> proceso en el servidor kie que lo
-		// "escuchará"
+		// Se le asigna un nombre a la señal -> proceso en el servidor kie que lo "escuchará"
 		signal.setSignalName("signalGestionRed");
 
 		// Imprime los valores mapeados
@@ -58,10 +57,6 @@ public class SignalsController {
 
 		// Se envía la señal al motor KIE
 		logger.info("Enviando una señal al motor KIE");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails principal = (UserDetails) auth.getPrincipal();
-		logger.info("Datos de usuario (principal)" + principal);
-
 		kie.sendSignal(signal.getSignalName(), signal.getMsj_logstash());
 
 		return "OK";
