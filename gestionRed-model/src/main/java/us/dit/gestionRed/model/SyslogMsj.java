@@ -7,10 +7,12 @@ import java.util.Date;
  */
 public class SyslogMsj {
 	private Date timestamp;
-	private String hostname;
+	private String hostname_client;
 	private String process;
 	private String pid;
-	private String msj;
+	private String service;
+	private String hostname_service;
+	private String msj_error;
 
 
 	public Date getTimestamp() {
@@ -21,12 +23,12 @@ public class SyslogMsj {
 		this.timestamp = timestamp;
 	}
 
-	public String getHostname() {
-		return hostname;
+	public String getHostname_client() {
+		return hostname_client;
 	}
 
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
+	public void setHostname_client(String hostname_client) {
+		this.hostname_client = hostname_client;
 	}
 
 	public String getProcess() {
@@ -45,12 +47,30 @@ public class SyslogMsj {
 		this.pid = pid;
 	}
 
-	public String getMsj() {
-		return this.msj;
+	public String getService() {
+		return service;
 	}
 
-	public void setMsj(String msj) {
-		this.msj = msj;
+	public void setService(String service) {
+		this.service = service;
 	}
+
+	public String getHostname_service() {
+		return hostname_service;
+	}
+
+	public void setHostname_service(String hostname_service) {
+		this.hostname_service = hostname_service;
+	}
+
+	public String getMsj_error() {
+		return msj_error;
+	}
+
+	public void setMsj_error(String msj_error) {
+		this.msj_error = msj_error;
+	}
+
+	
 
 }

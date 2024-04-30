@@ -50,10 +50,12 @@ public class SignalsController {
 		// Imprime los valores mapeados
 		logger.info("Signal Name: " + signal.getSignalName() + "\r\n");
 		logger.info("Timestamp: " + signal.getMsj_logstash().getTimestamp() + "\r\n");
-		logger.info("Hostname: " + signal.getMsj_logstash().getHostname() + "\r\n");
+		logger.info("Hostname_client: " + signal.getMsj_logstash().getHostname_client() + "\r\n");
 		logger.info("Process: " + signal.getMsj_logstash().getProcess() + "\r\n");
 		logger.info("Pid: " + signal.getMsj_logstash().getPid() + "\r\n");
-		logger.info("Msj: " + signal.getMsj_logstash().getMsj() + "\r\n");
+		logger.info("Service: " + signal.getMsj_logstash().getService() + "\r\n");
+		logger.info("Hostname_service: " + signal.getMsj_logstash().getHostname_service() + "\r\n");
+		logger.info("Msj_error: " + signal.getMsj_logstash().getMsj_error() + "\r\n");
 
 		// Se envía la señal al motor KIE
 		logger.info("Enviando una señal al motor KIE");
