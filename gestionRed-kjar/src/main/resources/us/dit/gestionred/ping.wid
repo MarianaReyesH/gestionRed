@@ -2,14 +2,12 @@
   [
     "name" : "ping", 
     "parameters" : [ 
-        "MyFirstParam" : new StringDataType(), 
-        "MySecondParam" : new StringDataType(), 
-        "MyThirdParam" : new ObjectDataType() 
+        "dirIP" : new StringDataType()
     ], 
     "results" : [ 
         "Result" : new ObjectDataType("java.util.Map") 
     ], 
-    "displayName" : "My Task", 
+    "displayName" : "ping", 
     "icon" : "" 
   ]
 ]
