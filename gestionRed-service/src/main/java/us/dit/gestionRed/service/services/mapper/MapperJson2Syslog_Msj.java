@@ -6,25 +6,23 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import us.dit.gestionRed.model.Signal;
 import us.dit.gestionRed.model.SyslogMsj;
 
 @Service
-public class MapperJson2Signal {
+public class MapperJson2Syslog_Msj {
 	private static final Logger logger = LogManager.getLogger();
 
-	public Signal json2Signal(String json) {
+	public SyslogMsj json2Signal(String json) {
 		ObjectMapper objectMapper = new ObjectMapper();
-		Signal signal = new Signal();
+		SyslogMsj syslog_msj = new SyslogMsj();
 
 		try {
-			SyslogMsj syslog_msj = objectMapper.readValue(json, SyslogMsj.class);
-			signal.setMsj_logstash(syslog_msj);
+			syslog_msj = objectMapper.readValue(json, SyslogMsj.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return signal;
+		return syslog_msj;
 	}
 }

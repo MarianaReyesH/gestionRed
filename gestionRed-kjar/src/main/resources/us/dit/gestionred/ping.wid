@@ -5,7 +5,7 @@
         "dirIP" : new StringDataType()
     ], 
     "results" : [ 
-        "Result" : new ObjectDataType("java.util.Map") 
+        "accesoMaquina" : new BooleanDataType() 
     ], 
     "displayName" : "ping", 
     "icon" : "" 

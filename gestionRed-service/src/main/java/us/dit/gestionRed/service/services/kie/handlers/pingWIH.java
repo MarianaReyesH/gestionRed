@@ -19,7 +19,7 @@ public class pingWIH implements WorkItemHandler {
 		logger.info("Se está ejecutando pingWIH con los detalles de workItem " + workItem);
 		
 		Map<String,Object> parametros = workItem.getParameters();
-		logger.info("Dirección IP a comprobar: "+(String)parametros.get("dirIP"));
+		logger.info("Direccion IP a comprobar: "+(String)parametros.get("dirIP"));
 		Map<String,Object> resultados = Map.of("accesoMaquina", true);
 		logger.info("Resultado del ping: "+ resultados.get("accesoMaquina"));
 		manager.completeWorkItem(workItem.getId(), resultados);

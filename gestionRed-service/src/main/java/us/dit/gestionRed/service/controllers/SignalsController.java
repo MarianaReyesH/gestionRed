@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import us.dit.gestionRed.model.Signal;
+import us.dit.gestionRed.model.SyslogMsj;
 import us.dit.gestionRed.service.services.kie.KieUtilService;
-import us.dit.gestionRed.service.services.mapper.MapperJson2Signal;
+import us.dit.gestionRed.service.services.mapper.MapperJson2Syslog_Msj;
 
 /**
  *
@@ -32,7 +32,7 @@ public class SignalsController {
 	private KieUtilService kie;
 
 	@Autowired
-	private MapperJson2Signal mapper;
+	private MapperJson2Syslog_Msj mapper;
 
 	@PostMapping()
 	public String sendSignal(@RequestBody String msj_logstash, HttpSession session) {
@@ -42,24 +42,20 @@ public class SignalsController {
 		logger.info("LLEGA EL MSJ DEL LOGSTASH:" + msj_logstash + "\r\n");
 
 		// Se mapea el msj que llega de logstash (un json) al objeto Java Signal
-		Signal signal = mapper.json2Signal(msj_logstash);
-
-		// Se le asigna un nombre a la señal -> proceso en el servidor kie que lo "escuchará"
-		signal.setSignalName("signalGestionRed");
+		SyslogMsj syslog_msj = mapper.json2Signal(msj_logstash);
 
 		// Imprime los valores mapeados
-		logger.info("Signal Name: " + signal.getSignalName() + "\r\n");
-		logger.info("Timestamp: " + signal.getMsj_logstash().getTimestamp() + "\r\n");
-		logger.info("Hostname_client: " + signal.getMsj_logstash().getHostname_client() + "\r\n");
-		logger.info("Process: " + signal.getMsj_logstash().getProcess() + "\r\n");
-		logger.info("Pid: " + signal.getMsj_logstash().getPid() + "\r\n");
-		logger.info("Service: " + signal.getMsj_logstash().getService() + "\r\n");
-		logger.info("Hostname_service: " + signal.getMsj_logstash().getHostname_service() + "\r\n");
-		logger.info("Msj_error: " + signal.getMsj_logstash().getMsj_error() + "\r\n");
+		logger.info("Timestamp: " + syslog_msj.getTimestamp() + "\r\n");
+		logger.info("Hostname_client: " + syslog_msj.getHostname_client() + "\r\n");
+		logger.info("Process: " + syslog_msj.getProcess() + "\r\n");
+		logger.info("Pid: " + syslog_msj.getPid() + "\r\n");
+		logger.info("Service: " + syslog_msj.getService() + "\r\n");
+		logger.info("Hostname_service: " + syslog_msj.getHostname_service() + "\r\n");
+		logger.info("Msj_error: " + syslog_msj.getMsj_error() + "\r\n");
 
 		// Se envía la señal al motor KIE
 		logger.info("Enviando una señal al motor KIE");
-		kie.sendSignal(signal.getSignalName(), signal.getMsj_logstash());
+		kie.sendSignal("signalGestionRed", syslog_msj);
 
 		return "OK";
 	}
