@@ -1,13 +1,13 @@
 [
   [
-    "name" : "ping", 
+    "name" : "verificaHostOK", 
     "parameters" : [ 
         "dirIP" : new StringDataType()
     ], 
     "results" : [ 
         "accesoMaquina" : new BooleanDataType() 
     ], 
-    "displayName" : "ping", 
+    "displayName" : "verificaHostOK", 
     "icon" : "" 
   ]
 ]
