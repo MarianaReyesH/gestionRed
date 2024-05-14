@@ -1,0 +1,11 @@
+[
+  [
+    "name" : "reinicioServicioLinux", 
+    "parameters" : [ 
+        "dirIP" : new StringDataType(), 
+        "process_service" : new StringDataType(),
+    ], 
+    "displayName" : "reinicioServicioLinux", 
+    "icon" : "" 
+  ]
+]

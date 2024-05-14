@@ -7,9 +7,9 @@
         "MyThirdParam" : new ObjectDataType() 
     ], 
     "results" : [ 
-        "Result" : new ObjectDataType("java.util.Map") 
+        "accesoMaquina" : new BooleanDataType() 
     ], 
-    "displayName" : "My Task", 
+    "displayName" : "consultaLDAP", 
     "icon" : "" 
   ]
 ]
