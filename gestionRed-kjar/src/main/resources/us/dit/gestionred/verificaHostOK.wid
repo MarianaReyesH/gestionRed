@@ -1,0 +1,13 @@
+[
+  [
+    "name" : "verificaHostOK", 
+    "parameters" : [ 
+        "dirIP" : new StringDataType()
+    ], 
+    "results" : [ 
+        "accesoMaquina" : new BooleanDataType() 
+    ], 
+    "displayName" : "verificaHostOK", 
+    "icon" : "" 
+  ]
+]

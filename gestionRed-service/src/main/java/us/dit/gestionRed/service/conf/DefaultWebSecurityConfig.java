@@ -1,24 +1,20 @@
 package us.dit.gestionRed.service.conf;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.util.Arrays;
 
-import org.springframework.security.web.SecurityFilterChain;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +29,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
  * Esto va bien cuando se utiliza el spring boot starter 2.6.15 y el kie server
  * 7.74.1.Final fecha de la revisión 6/10/2023
- * 
+ *
  * TO DO: Utilizar la autenticación basada en oauth o en SAML (SSO) contra un
  * servidor de autenticación externo REF:
  * https://is.docs.wso2.com/en/latest/sdks/spring-boot/ para hacerlo con el
@@ -99,6 +95,6 @@ public class DefaultWebSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	
+
 
 }

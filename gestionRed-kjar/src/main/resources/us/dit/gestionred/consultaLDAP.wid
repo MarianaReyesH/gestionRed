@@ -1,0 +1,15 @@
+[
+  [
+    "name" : "consultaLDAP", 
+    "parameters" : [ 
+        "MyFirstParam" : new StringDataType(), 
+        "MySecondParam" : new StringDataType(), 
+        "MyThirdParam" : new ObjectDataType() 
+    ], 
+    "results" : [ 
+        "accesoMaquina" : new BooleanDataType() 
+    ], 
+    "displayName" : "consultaLDAP", 
+    "icon" : "" 
+  ]
+]

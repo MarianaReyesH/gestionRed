@@ -1,0 +1,13 @@
+[
+  [
+    "name" : "reinicioServicioLinux", 
+    "parameters" : [ 
+        "dirIP" : new StringDataType(), 
+        "process_service" : new StringDataType(),
+        "sshPort" : new IntegerDataType(),
+        "sshPass" : new StringDataType(),
+    ], 
+    "displayName" : "reinicioServicioLinux", 
+    "icon" : "" 
+  ]
+]

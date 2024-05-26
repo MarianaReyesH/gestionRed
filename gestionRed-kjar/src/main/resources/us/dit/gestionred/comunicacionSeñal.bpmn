@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/bpmn20" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_XgdVcAiLEe-Jw8-bGhjM8Q" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd " exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
+  <bpmn2:itemDefinition id="_msj_syslogItem" structureRef="us.dit.gestionRed.model.SyslogMsj"/>
+  <bpmn2:itemDefinition id="__144D04E0-D006-43D0-B018-AC377F219054_msj_syslogInputXItem" structureRef="us.dit.gestionRed.model.SyslogMsj"/>
+  <bpmn2:itemDefinition id="__2EA17A9D-416C-421C-AB6E-FBD8676AD342_msj_syslogOutputXItem" structureRef="us.dit.gestionRed.model.SyslogMsj"/>
+  <bpmn2:itemDefinition id="__E4EEE448-7014-4B24-8190-3A1E47568CE2_msj_syslogInputXItem" structureRef="us.dit.gestionRed.model.SyslogMsj"/>
+  <bpmn2:signal id="_7aee3bb6-4695-35c2-a54e-b91f0c6cd482" name="signalServiceLDAP"/>
+  <bpmn2:signal id="_40d9b43c-3a7d-3008-b2bd-b34a0c7cbb66" name="signalGestionRed"/>
+  <bpmn2:signal id="_a32693a1-5da4-3888-9be5-fb82a194cbbb" name="signalServiceMail"/>
+  <bpmn2:process id="gestionRed-kjar.comunicacionSeñal" drools:packageName="us.dit.gestionRed" drools:version="1.0" drools:adHoc="false" name="comunicacionSeñal" isExecutable="true" processType="Public">
+    <bpmn2:property id="msj_syslog" itemSubjectRef="_msj_syslogItem" name="msj_syslog"/>
+    <bpmn2:sequenceFlow id="_ACDAB887-1AD6-4C42-BBD3-DFA82899C70C" name="mailservice" sourceRef="_ECCAD069-2EC5-46B0-923D-02528A66E2CD" targetRef="_E4EEE448-7014-4B24-8190-3A1E47568CE2">
+      <bpmn2:extensionElements>
+        <drools:metaData name="elementname">
+          <drools:metaValue><![CDATA[mailservice]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Xgd8gAiLEe-Jw8-bGhjM8Q" language="http://www.java.com/java"><![CDATA[return KieFunctions.equalsTo(msj_syslog.getService(), "mailservice");]]></bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="_1F4B6BFE-27EA-428D-82A1-A5286A5690A3" sourceRef="_D1C6E54D-14AD-4B42-8925-91A5F42A1E44" targetRef="_ECCAD069-2EC5-46B0-923D-02528A66E2CD">
+      <bpmn2:extensionElements>
+        <drools:metaData name="isAutoConnection.target">
+          <drools:metaValue><![CDATA[true]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="_60084AFB-005B-4963-94CF-5DD7CF4D3DE6" sourceRef="_2EA17A9D-416C-421C-AB6E-FBD8676AD342" targetRef="_D1C6E54D-14AD-4B42-8925-91A5F42A1E44">
+      <bpmn2:extensionElements>
+        <drools:metaData name="isAutoConnection.target">
+          <drools:metaValue><![CDATA[true]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="_F8BC171F-9DFA-49AF-8901-8FB2AA789E76" name="ldapservice" sourceRef="_ECCAD069-2EC5-46B0-923D-02528A66E2CD" targetRef="_144D04E0-D006-43D0-B018-AC377F219054">
+      <bpmn2:extensionElements>
+        <drools:metaData name="isAutoConnection.target">
+          <drools:metaValue><![CDATA[true]]></drools:metaValue>
+        </drools:metaData>
+        <drools:metaData name="elementname">
+          <drools:metaValue><![CDATA[ldapservice]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Xgd8gQiLEe-Jw8-bGhjM8Q" language="http://www.java.com/java"><![CDATA[return KieFunctions.equalsTo(msj_syslog.getService(), "ldapservice");]]></bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="_D496D2F2-ED16-4CDD-B0C7-76A80A3186F3" sourceRef="_3605CF7E-700A-4FD9-9134-CED16775134C" targetRef="_A715443E-7D4A-48E2-BC7B-AC2CA3227EA9">
+      <bpmn2:extensionElements>
+        <drools:metaData name="isAutoConnection.target">
+          <drools:metaValue><![CDATA[true]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="_01230A3B-6D87-42A5-B48D-94EB0D5DE588" name="default" sourceRef="_ECCAD069-2EC5-46B0-923D-02528A66E2CD" targetRef="_3605CF7E-700A-4FD9-9134-CED16775134C">
+      <bpmn2:extensionElements>
+        <drools:metaData name="elementname">
+          <drools:metaValue><![CDATA[default]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Xgd8ggiLEe-Jw8-bGhjM8Q" language="http://www.java.com/java"><![CDATA[return KieFunctions.contains(msj_syslog.getService(), "service");]]></bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="_ECCAD069-2EC5-46B0-923D-02528A66E2CD" gatewayDirection="Diverging">
+      <bpmn2:incoming>_1F4B6BFE-27EA-428D-82A1-A5286A5690A3</bpmn2:incoming>
+      <bpmn2:outgoing>_01230A3B-6D87-42A5-B48D-94EB0D5DE588</bpmn2:outgoing>
+      <bpmn2:outgoing>_F8BC171F-9DFA-49AF-8901-8FB2AA789E76</bpmn2:outgoing>
+      <bpmn2:outgoing>_ACDAB887-1AD6-4C42-BBD3-DFA82899C70C</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:endEvent id="_E4EEE448-7014-4B24-8190-3A1E47568CE2">
+      <bpmn2:extensionElements>
+        <drools:metaData name="customScope">
+          <drools:metaValue><![CDATA[project]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>_ACDAB887-1AD6-4C42-BBD3-DFA82899C70C</bpmn2:incoming>
+      <bpmn2:dataInput id="_E4EEE448-7014-4B24-8190-3A1E47568CE2_msj_syslogInputX" drools:dtype="us.dit.gestionRed.model.SyslogMsj" itemSubjectRef="__E4EEE448-7014-4B24-8190-3A1E47568CE2_msj_syslogInputXItem" name="msj_syslog"/>
+      <bpmn2:dataInputAssociation id="_Xgd8hAiLEe-Jw8-bGhjM8Q">
+        <bpmn2:sourceRef>msj_syslog</bpmn2:sourceRef>
+        <bpmn2:targetRef>_E4EEE448-7014-4B24-8190-3A1E47568CE2_msj_syslogInputX</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:inputSet id="_Xgd8gwiLEe-Jw8-bGhjM8Q">
+        <bpmn2:dataInputRefs>_E4EEE448-7014-4B24-8190-3A1E47568CE2_msj_syslogInputX</bpmn2:dataInputRefs>
+      </bpmn2:inputSet>
+      <bpmn2:signalEventDefinition id="_Xgd8hQiLEe-Jw8-bGhjM8Q" signalRef="_a32693a1-5da4-3888-9be5-fb82a194cbbb"/>
+    </bpmn2:endEvent>
+    <bpmn2:startEvent id="_2EA17A9D-416C-421C-AB6E-FBD8676AD342">
+      <bpmn2:outgoing>_60084AFB-005B-4963-94CF-5DD7CF4D3DE6</bpmn2:outgoing>
+      <bpmn2:dataOutput id="_2EA17A9D-416C-421C-AB6E-FBD8676AD342_msj_syslogOutputX" drools:dtype="us.dit.gestionRed.model.SyslogMsj" itemSubjectRef="__2EA17A9D-416C-421C-AB6E-FBD8676AD342_msj_syslogOutputXItem" name="msj_syslog"/>
+      <bpmn2:dataOutputAssociation id="_Xgd8hwiLEe-Jw8-bGhjM8Q">
+        <bpmn2:sourceRef>_2EA17A9D-416C-421C-AB6E-FBD8676AD342_msj_syslogOutputX</bpmn2:sourceRef>
+        <bpmn2:targetRef>msj_syslog</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:outputSet id="_Xgd8hgiLEe-Jw8-bGhjM8Q">
+        <bpmn2:dataOutputRefs>_2EA17A9D-416C-421C-AB6E-FBD8676AD342_msj_syslogOutputX</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:signalEventDefinition id="_Xgd8iAiLEe-Jw8-bGhjM8Q" signalRef="_40d9b43c-3a7d-3008-b2bd-b34a0c7cbb66"/>
+    </bpmn2:startEvent>
+    <bpmn2:scriptTask id="_D1C6E54D-14AD-4B42-8925-91A5F42A1E44" name="Traza de entrada" scriptFormat="http://www.java.com/java">
+      <bpmn2:extensionElements>
+        <drools:metaData name="elementname">
+          <drools:metaValue><![CDATA[Traza de entrada]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>_60084AFB-005B-4963-94CF-5DD7CF4D3DE6</bpmn2:incoming>
+      <bpmn2:outgoing>_1F4B6BFE-27EA-428D-82A1-A5286A5690A3</bpmn2:outgoing>
+      <bpmn2:script><![CDATA[us.dit.gestionRed.model.SyslogMsj msj;
+msj = (us.dit.gestionRed.model.SyslogMsj) kcontext.getVariable("msj_syslog");
+System.out.println("Arranque automático al recibir mensaje del logstash "+ kcontext.getVariable("msj_syslog"));
+System.out.println("Service: " + msj.getService());]]></bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:endEvent id="_144D04E0-D006-43D0-B018-AC377F219054">
+      <bpmn2:extensionElements>
+        <drools:metaData name="customScope">
+          <drools:metaValue><![CDATA[project]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>_F8BC171F-9DFA-49AF-8901-8FB2AA789E76</bpmn2:incoming>
+      <bpmn2:dataInput id="_144D04E0-D006-43D0-B018-AC377F219054_msj_syslogInputX" drools:dtype="us.dit.gestionRed.model.SyslogMsj" itemSubjectRef="__144D04E0-D006-43D0-B018-AC377F219054_msj_syslogInputXItem" name="msj_syslog"/>
+      <bpmn2:dataInputAssociation id="_Xgd8igiLEe-Jw8-bGhjM8Q">
+        <bpmn2:sourceRef>msj_syslog</bpmn2:sourceRef>
+        <bpmn2:targetRef>_144D04E0-D006-43D0-B018-AC377F219054_msj_syslogInputX</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:inputSet id="_Xgd8iQiLEe-Jw8-bGhjM8Q">
+        <bpmn2:dataInputRefs>_144D04E0-D006-43D0-B018-AC377F219054_msj_syslogInputX</bpmn2:dataInputRefs>
+      </bpmn2:inputSet>
+      <bpmn2:signalEventDefinition id="_Xgd8iwiLEe-Jw8-bGhjM8Q" signalRef="_7aee3bb6-4695-35c2-a54e-b91f0c6cd482"/>
+    </bpmn2:endEvent>
+    <bpmn2:endEvent id="_A715443E-7D4A-48E2-BC7B-AC2CA3227EA9">
+      <bpmn2:incoming>_D496D2F2-ED16-4CDD-B0C7-76A80A3186F3</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="_Xgd8jAiLEe-Jw8-bGhjM8Q"/>
+    </bpmn2:endEvent>
+    <bpmn2:scriptTask id="_3605CF7E-700A-4FD9-9134-CED16775134C" name="Default" scriptFormat="http://www.java.com/java">
+      <bpmn2:extensionElements>
+        <drools:metaData name="elementname">
+          <drools:metaValue><![CDATA[Default]]></drools:metaValue>
+        </drools:metaData>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>_01230A3B-6D87-42A5-B48D-94EB0D5DE588</bpmn2:incoming>
+      <bpmn2:outgoing>_D496D2F2-ED16-4CDD-B0C7-76A80A3186F3</bpmn2:outgoing>
+      <bpmn2:script><![CDATA[us.dit.gestionRed.model.SyslogMsj msj;
+msj = (us.dit.gestionRed.model.SyslogMsj) kcontext.getVariable("msj_syslog");
+System.out.println("El servicio no se relaciona con nigún subproceso implementado. Service: " + msj.getService());]]></bpmn2:script>
+    </bpmn2:scriptTask>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="_Xgd8jQiLEe-Jw8-bGhjM8Q">
+    <bpmndi:BPMNPlane id="_Xgd8jgiLEe-Jw8-bGhjM8Q" bpmnElement="gestionRed-kjar.comunicacionSeñal">
+      <bpmndi:BPMNShape id="shape__3605CF7E-700A-4FD9-9134-CED16775134C" bpmnElement="_3605CF7E-700A-4FD9-9134-CED16775134C">
+        <dc:Bounds height="102.0" width="154.0" x="775.0" y="392.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape__A715443E-7D4A-48E2-BC7B-AC2CA3227EA9" bpmnElement="_A715443E-7D4A-48E2-BC7B-AC2CA3227EA9">
+        <dc:Bounds height="56.0" width="56.0" x="1004.0" y="415.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape__144D04E0-D006-43D0-B018-AC377F219054" bpmnElement="_144D04E0-D006-43D0-B018-AC377F219054">
+        <dc:Bounds height="55.999985" width="56.0" x="792.0" y="253.63637"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape__D1C6E54D-14AD-4B42-8925-91A5F42A1E44" bpmnElement="_D1C6E54D-14AD-4B42-8925-91A5F42A1E44">
+        <dc:Bounds height="102.0" width="154.0" x="255.0" y="231.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape__2EA17A9D-416C-421C-AB6E-FBD8676AD342" bpmnElement="_2EA17A9D-416C-421C-AB6E-FBD8676AD342">
+        <dc:Bounds height="56.0" width="56.0" x="112.0" y="254.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape__E4EEE448-7014-4B24-8190-3A1E47568CE2" bpmnElement="_E4EEE448-7014-4B24-8190-3A1E47568CE2">
+        <dc:Bounds height="55.999996" width="56.0" x="792.0" y="49.363636"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape__ECCAD069-2EC5-46B0-923D-02528A66E2CD" bpmnElement="_ECCAD069-2EC5-46B0-923D-02528A66E2CD">
+        <dc:Bounds height="56.0" width="56.0" x="491.0" y="254.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge_shape__ECCAD069-2EC5-46B0-923D-02528A66E2CD_to_shape__3605CF7E-700A-4FD9-9134-CED16775134C" bpmnElement="_01230A3B-6D87-42A5-B48D-94EB0D5DE588">
+        <di:waypoint xsi:type="dc:Point" x="547.0" y="282.0"/>
+        <di:waypoint xsi:type="dc:Point" x="573.0" y="436.63635"/>
+        <di:waypoint xsi:type="dc:Point" x="775.0" y="443.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge_shape__3605CF7E-700A-4FD9-9134-CED16775134C_to_shape__A715443E-7D4A-48E2-BC7B-AC2CA3227EA9" bpmnElement="_D496D2F2-ED16-4CDD-B0C7-76A80A3186F3">
+        <di:waypoint xsi:type="dc:Point" x="852.0" y="443.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1004.0" y="443.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge_shape__ECCAD069-2EC5-46B0-923D-02528A66E2CD_to_shape__144D04E0-D006-43D0-B018-AC377F219054" bpmnElement="_F8BC171F-9DFA-49AF-8901-8FB2AA789E76">
+        <di:waypoint xsi:type="dc:Point" x="547.0" y="282.0"/>
+        <di:waypoint xsi:type="dc:Point" x="575.0" y="284.0"/>
+        <di:waypoint xsi:type="dc:Point" x="706.1846" y="284.0"/>
+        <di:waypoint xsi:type="dc:Point" x="792.0" y="281.63635"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge_shape__2EA17A9D-416C-421C-AB6E-FBD8676AD342_to_shape__D1C6E54D-14AD-4B42-8925-91A5F42A1E44" bpmnElement="_60084AFB-005B-4963-94CF-5DD7CF4D3DE6">
+        <di:waypoint xsi:type="dc:Point" x="140.0" y="282.0"/>
+        <di:waypoint xsi:type="dc:Point" x="255.0" y="282.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge_shape__D1C6E54D-14AD-4B42-8925-91A5F42A1E44_to_shape__ECCAD069-2EC5-46B0-923D-02528A66E2CD" bpmnElement="_1F4B6BFE-27EA-428D-82A1-A5286A5690A3">
+        <di:waypoint xsi:type="dc:Point" x="332.0" y="282.0"/>
+        <di:waypoint xsi:type="dc:Point" x="491.0" y="282.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge_shape__ECCAD069-2EC5-46B0-923D-02528A66E2CD_to_shape__E4EEE448-7014-4B24-8190-3A1E47568CE2" bpmnElement="_ACDAB887-1AD6-4C42-BBD3-DFA82899C70C">
+        <di:waypoint xsi:type="dc:Point" x="547.0" y="282.0"/>
+        <di:waypoint xsi:type="dc:Point" x="575.0" y="78.495865"/>
+        <di:waypoint xsi:type="dc:Point" x="715.9401" y="77.36363"/>
+        <di:waypoint xsi:type="dc:Point" x="792.0" y="77.36363"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmn2:relationship id="_Xgd8jwiLEe-Jw8-bGhjM8Q" type="BPSimData">
+    <bpmn2:extensionElements>
+      <bpsim:BPSimData>
+        <bpsim:Scenario xsi:type="bpsim:Scenario" id="default" name="Simulationscenario">
+          <bpsim:ScenarioParameters xsi:type="bpsim:ScenarioParameters"/>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" elementRef="_3605CF7E-700A-4FD9-9134-CED16775134C" id="_Xgd8kAiLEe-Jw8-bGhjM8Q">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
+                <bpsim:NormalDistribution mean="0.0" standardDeviation="0.0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:ResourceParameters xsi:type="bpsim:ResourceParameters">
+              <bpsim:Availability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Availability>
+              <bpsim:Quantity xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Quantity>
+            </bpsim:ResourceParameters>
+            <bpsim:CostParameters xsi:type="bpsim:CostParameters">
+              <bpsim:UnitCost xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters xsi:type="bpsim:ElementParameters" elementRef="_D1C6E54D-14AD-4B42-8925-91A5F42A1E44" id="_Xgd8kQiLEe-Jw8-bGhjM8Q">
+            <bpsim:TimeParameters xsi:type="bpsim:TimeParameters">
+              <bpsim:ProcessingTime xsi:type="bpsim:Parameter">
+                <bpsim:NormalDistribution mean="0.0" standardDeviation="0.0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:ResourceParameters xsi:type="bpsim:ResourceParameters">
+              <bpsim:Availability xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Availability>
+              <bpsim:Quantity xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:Quantity>
+            </bpsim:ResourceParameters>
+            <bpsim:CostParameters xsi:type="bpsim:CostParameters">
+              <bpsim:UnitCost xsi:type="bpsim:Parameter">
+                <bpsim:FloatingParameter value="0.0"/>
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+          </bpsim:ElementParameters>
+        </bpsim:Scenario>
+      </bpsim:BPSimData>
+    </bpmn2:extensionElements>
+    <bpmn2:source>_XgdVcAiLEe-Jw8-bGhjM8Q</bpmn2:source>
+    <bpmn2:target>_XgdVcAiLEe-Jw8-bGhjM8Q</bpmn2:target>
+  </bpmn2:relationship>
+</bpmn2:definitions>
