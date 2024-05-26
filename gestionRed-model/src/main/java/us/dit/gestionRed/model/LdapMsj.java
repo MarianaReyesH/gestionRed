@@ -8,6 +8,8 @@ public class LdapMsj {
 	private String dirIP;
 	private String os;
 	private String hostname_service;
+	private int sshPort;
+	private String sshPass;
 
 
 	public String getProcess_service() {
@@ -40,5 +42,21 @@ public class LdapMsj {
 
 	public void setHostname_service(String hostname_service) {
 		this.hostname_service = hostname_service;
+	}
+	
+	public int getSshPort() {
+		return sshPort;
+	}
+
+	public void setSshPort(int sshPort) {
+		this.sshPort = sshPort;
+	}
+	
+	public String getSshPass() {
+		return sshPass;
+	}
+
+	public void setSshPass(String sshPass) {
+		this.sshPass = sshPass;
 	}
 }
