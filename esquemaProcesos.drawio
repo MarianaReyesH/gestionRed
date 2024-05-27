@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-05-27T15:03:03.836Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="GUT4TBGiDZ12VnCPtLLT" version="24.4.8" type="device" pages="3">
+<mxfile host="app.diagrams.net" modified="2024-05-27T16:06:42.590Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="6N9qYcoF2TwqjqNKVmPa" version="24.4.8" type="device" pages="3">
   <diagram name="logstash-gestionRed-comunicacionSeñal" id="ffLnR3S8BG0MCvM6Vw0S">
     <mxGraphModel dx="1843" dy="1613" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -370,7 +370,7 @@
         <mxCell id="qRvEEK3Z4gWkXY6PAl6W-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="qRvEEK3Z4gWkXY6PAl6W-4" target="qRvEEK3Z4gWkXY6PAl6W-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="qRvEEK3Z4gWkXY6PAl6W-4" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;From: mari6reyes6@gmail.com&lt;/font&gt;&lt;div&gt;Subject: verificaServicioMail&lt;/div&gt;&lt;div&gt;To: marreyhen@alum.us.es&lt;/div&gt;&lt;div&gt;Body: ...&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="qRvEEK3Z4gWkXY6PAl6W-4" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;From: ejemplo@gmail.com&lt;/font&gt;&lt;div&gt;Subject: verificaServicioMail&lt;/div&gt;&lt;div&gt;To: mari6retes6@gmail.com&lt;/div&gt;&lt;div&gt;Body: ...&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="568.75" y="-206.50000000000003" width="231.5" height="81" as="geometry" />
         </mxCell>
         <mxCell id="KkYBSPvJuOfPIDka23oH-1" value="true" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
