@@ -22,10 +22,11 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 	 * Si el servicio está apagado -> se levanta Si está encendido -> se apaga y se
 	 * vuelve a levantar
 	 */
-	public static void executeSshCommand(String ip, int port, String password, String command) {
+	public static Boolean executeSshCommand(String ip, int port, String password, String command) {
 		JSch jsch = new JSch();
 		Session session = null;
 		ChannelExec channel = null;
+		Boolean resultado = false;
 
 		try {
 			// Configura la sesión SSH
@@ -57,13 +58,19 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 				if (channel.isClosed()) {
 					if (in.available() > 0)
 						continue;
+					// Si la conexión ssh ha sido exitosa -> resultado = true
+					if (channel.getExitStatus() == 0) {
+						resultado = true;
+					}
 					System.out.println("Exit-status: " + channel.getExitStatus());
 					break;
 				}
 				Thread.sleep(1000);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			// Si se produce cualquier error -> resultado = false
+			System.out.println("No se ha podido establecer la conexión ssh");
+			//e.printStackTrace();
 		} finally {
 			if (channel != null) {
 				channel.disconnect();
@@ -72,12 +79,16 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 				session.disconnect();
 			}
 		}
-
+		
+		return resultado;
 	}
 	
-	public static void manageSmtpService(String ip, int port, String password, boolean start) {
-		String command = start ? "service postfix start" : "service postfix stop";
-		executeSshCommand(ip, port, password, command);
+	public static Boolean manageSmtpService(String ip, int port, String password, String process_service, boolean start) {
+		String command = start ? "service " + process_service + " start" : "service " + process_service + " stop";
+		Boolean resultado = false;
+		resultado = executeSshCommand(ip, port, password, command);
+		
+		return resultado;
 	}
 
 	@Override
@@ -89,14 +100,25 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 		String process_service = (String) parametros.get("process_service");
 		int sshPort = (int) parametros.get("sshPort");
 		String sshPass = (String) parametros.get("sshPass");
+		
+		Boolean resultadoApagar = false;
+		Boolean resultadoEncender = false;
 
 		logger.info("Nos conectamos por ssh a: " + dirIP + " por el puerto: " + sshPort);
 		logger.info("Apagamos el servicio: " + process_service);
-		manageSmtpService(dirIP, sshPort, sshPass, false);
+		resultadoApagar = manageSmtpService(dirIP, sshPort, sshPass, process_service, false);
 		logger.info("Encendemos el servicio: " + process_service);
-		manageSmtpService(dirIP, sshPort, sshPass, true);
+		resultadoEncender = manageSmtpService(dirIP, sshPort, sshPass, process_service, true);
 
-		manager.completeWorkItem(workItem.getId(), null);
+		if (resultadoApagar == true && resultadoEncender == true) {
+			Map<String,Object> resultados = Map.of("accesoSSH", true);
+			logger.info("Se ha podido establecer la conexión ssh y se ha reiniciado el servicio");
+			manager.completeWorkItem(workItem.getId(), resultados);
+		} else {
+			Map<String,Object> resultados = Map.of("accesoSSH", false);
+			logger.info("NO se ha podido establecer la conexión ssh");
+			manager.completeWorkItem(workItem.getId(), resultados);
+		}
 	}
 
 	@Override
