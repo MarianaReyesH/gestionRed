@@ -7,6 +7,9 @@
         "sshPort" : new IntegerDataType(),
         "sshPass" : new StringDataType(),
     ], 
+    "results" : [ 
+        "accesoSSH" : new BooleanDataType() 
+    ], 
     "displayName" : "reinicioServicioLinux", 
     "icon" : "" 
   ]
