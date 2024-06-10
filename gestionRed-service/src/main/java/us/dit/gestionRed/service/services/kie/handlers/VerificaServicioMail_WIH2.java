@@ -17,28 +17,23 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 @Component("verificaServicioMail")
-public class VerificaServicioMail_WIH implements WorkItemHandler {
+public class VerificaServicioMail_WIH2 implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();
 	
 	@Autowired
-    private SmtpConfig emailConfig;
+    private static SmtpConfig emailConfig;
 	
-	private final  Properties props = new Properties();
-	private  Session session;
+	private final static  Properties props = new Properties();
+	private static  Session session;
 
 	/***
 	 * Se envía un correo electrónico para comprobar el correcto funcionamiento del servidor SMTP
 	 */
-	@Override
-	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
-		logger.info("Ejecutando VerificaServicioMail_WIH con los detalles de workItem " + workItem);
-
-		Map<String, Object> parametros = workItem.getParameters();
-		String dirIP = (String) parametros.get("dirIP");
-		int servicePort = (int) parametros.get("servicePort");
-		Transport transport = null;
-
+	public static Boolean sendEmailSMTP(String dirIP, int servicePort) {
 		logger.info("Configuramos las propiedades relativas al servidor SMTP");
+		
+		Boolean resultado = false;
+		Transport transport = null;
 		
 		// Configuración de las propiedades
 		props.put("mail.transport.protocol", "smtp");
@@ -81,23 +76,19 @@ public class VerificaServicioMail_WIH implements WorkItemHandler {
 			logger.info("Conectando con el servidor smtp...");
 			transport.connect();
 			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 			
 			logger.info("Enviando email...");
 			transport.sendMessage(message, message.getAllRecipients());
-			
-            Map<String,Object> resultados = Map.of("estadoServicio", true);
-            logger.info("Email enviado a: " + emailConfig.getTo());
-    		manager.completeWorkItem(workItem.getId(), resultados);
+			logger.info("Correo enviado exitosamente!");
+			resultado = true;
 
         } catch (MessagingException  e) {
-        	Map<String,Object> resultados = Map.of("estadoServicio", false);
         	System.out.println("Error al enviar el correo: " + e.getMessage());
-    		manager.completeWorkItem(workItem.getId(), resultados);
     		
         } finally {
 			if (transport != null) {
@@ -108,7 +99,25 @@ public class VerificaServicioMail_WIH implements WorkItemHandler {
 				}
 			}
 		}
+		
+		return resultado;
+	}
+	
+	
+	@Override
+	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
+		logger.info("Ejecutando VerificaServicioMail_WIH con los detalles de workItem " + workItem);
 
+		Map<String, Object> parametros = workItem.getParameters();
+		String dirIP = (String) parametros.get("dirIP");
+		int servicePort = (int) parametros.get("servicePort");
+		Boolean resultado = sendEmailSMTP(dirIP, servicePort);
+
+		logger.info("Llamamos a sendEmailSMTP");
+		
+		Map<String,Object> resultados = Map.of("estadoServicio", resultado);
+        logger.info("Email enviado a: " + emailConfig.getTo());
+		manager.completeWorkItem(workItem.getId(), resultados);
 	}
 
 	@Override
