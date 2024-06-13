@@ -1,0 +1,25 @@
+[
+        [
+            "name" : "verificaServicioMail",
+            "displayName" : "verificaServicioMail",
+            "category" : "jbpm-workitems-email",
+            "description" : "",
+            "defaultHandler" : "mvel: new org.jbpm.process.workitem.email.EmailWorkItemHandler()",
+            "documentation" : "jbpm-workitems-email/index.html",
+
+            "parameters" : [ 
+                "dirIP" : new StringDataType(), 
+                "servicePort" : new StringDataType()
+            ],
+            "results" : [ 
+                "estadoServicio" : new BooleanDataType() 
+            ],
+            "mavenDependencies" : [
+                                 "org.jbpm:jbpm-workitems-email:7.74.1.Final"
+
+            ],
+            "icon" : "defaultemailicon.png"
+
+        ]
+
+]

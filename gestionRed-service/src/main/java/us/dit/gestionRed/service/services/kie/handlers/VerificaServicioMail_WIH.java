@@ -1,21 +1,45 @@
+/*
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package us.dit.gestionRed.service.services.kie.handlers;
 
 import java.util.Map;
-import java.util.Properties;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jbpm.process.workitem.core.AbstractLogOrThrowWorkItemHandler;
+import org.jbpm.process.workitem.email.Connection;
+import org.jbpm.process.workitem.email.Email;
+import org.jbpm.process.workitem.email.SendHtml;
+import org.jbpm.process.workitem.email.TemplateManager;
+import org.jbpm.process.workitem.email.Message;
+import org.jbpm.process.workitem.email.Recipient;
+import org.jbpm.process.workitem.email.Recipients;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import us.dit.gestionRed.service.conf.SmtpConfig;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.mail.*;
-import javax.mail.internet.*;
-
+/**
+ * WorkItemHandler for sending email.
+ * 
+ */
 @Component("verificaServicioMail")
 public class VerificaServicioMail_WIH implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();
@@ -23,111 +47,99 @@ public class VerificaServicioMail_WIH implements WorkItemHandler {
 	@Autowired
     private SmtpConfig emailConfig;
 	
-	private final static  Properties props = new Properties();
-	private static  Session session;
+	private Connection connection;
+	private TemplateManager templateManager = TemplateManager.get();
+	
 
-	/***
-	 * Se envía un correo electrónico para comprobar el correcto funcionamiento del servidor SMTP
-	 */
-	public static Boolean sendEmailSMTP(String dirIP, int servicePort, SmtpConfig emailConfig) {
-		logger.info("Configuramos las propiedades relativas al servidor SMTP");
-		
-		Boolean resultado = false;
-		Transport transport = null;
-		
-		// Configuración de las propiedades
-		props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.auth.mechanisms", "LOGIN PLAIN");
-        //props.put("mail.smtp.ssl.trust", dirIP);
-        props.put("mail.smtp.ssl.enable", "false");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", dirIP);
-        props.put("mail.smtp.port", String.valueOf(servicePort));
-        props.put("mail.smtp.user", emailConfig.getUsername());
-        props.put("mail.smtp.password", emailConfig.getPassword());
-        
-        // Habilitar debug para más detalles
-        props.put("mail.debug", "true");
-        
-        logger.info("Propiedades configuradas");
-
-        // Autenticación
-        final String username = emailConfig.getUsername();
-        final String password = emailConfig.getPassword();
-        
-        logger.info("Establecemos la sesion con el servidor smpt");
-        
-        session = Session.getInstance(props, new Authenticator() {
-		    @Override
-		    protected PasswordAuthentication getPasswordAuthentication() {
-		        return new PasswordAuthentication(username, password);
-		    }
-		});
-       
-        logger.info("Sesion establecida");
-
-        try {
-            // Crear un objeto MimeMessage
-        	Message message = new MimeMessage(session);
-        	message.setFrom(new InternetAddress(emailConfig.getFrom()));
-        	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailConfig.getTo()));
-			message.setSubject("Prueba");
-			message.setText("Texto");
-			
-			logger.info("Msj MIME creado, enviamos el correo");
-			
-			transport = session.getTransport("smtp");
-			logger.info("Conectando con el servidor smtp...");
-			transport.connect();
-			
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-			
-			logger.info("Enviando email...");
-			transport.sendMessage(message, message.getAllRecipients());
-			logger.info("Correo enviado exitosamente!");
-			resultado = true;
-
-        } catch (MessagingException  e) {
-        	System.out.println("Error al enviar el correo: " + e.getMessage());
-    		
-        } finally {
-			if (transport != null) {
-				try {
-					transport.close();
-				} catch (MessagingException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return resultado;
+	public void setConnection(String host, String port, String userName, String password) {
+		connection = new Connection();
+		connection.setHost(host);
+		connection.setPort(port);
+		connection.setUserName(userName);
+		connection.setPassword(password);
 	}
-	
-	
-	@Override
+
+	public Connection getConnection() {
+		return connection;
+	}
+
 	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
 		logger.info("Ejecutando VerificaServicioMail_WIH con los detalles de workItem " + workItem);
+		
+		Boolean resultado = false;
 
 		Map<String, Object> parametros = workItem.getParameters();
 		String dirIP = (String) parametros.get("dirIP");
 		int servicePort = (int) parametros.get("servicePort");
 		
-		logger.info("Llamamos a sendEmailSMTP");
-		Boolean resultado = sendEmailSMTP(dirIP, servicePort, emailConfig);
-	
-		Map<String,Object> resultados = Map.of("estadoServicio", resultado);
-        logger.info("Resultado de sendEmailSMTP: " + resultado);
-		manager.completeWorkItem(workItem.getId(), resultados);
+		setConnection(dirIP, Integer.toString(servicePort), emailConfig.getUsername(), emailConfig.getPassword());
+		
+		try {
+    		Email email = createEmail(workItem, connection);
+    		logger.info("Se envia el correo...");
+    		SendHtml.sendHtml(email, getDebugFlag(workItem));
+    		logger.info("Correo enviado correctamente!");
+    		resultado = true;
+    	    
+		} catch (Exception e) {
+			System.out.println("Error al enviar el correo. Msj: " + e.getMessage() + ". Causa: " + e.getCause());
+		}
+		
+		if (manager != null) {
+	    	Map<String,Object> resultados = Map.of("estadoServicio", resultado);
+	        logger.info("Resultado de sendHtml: " + resultado);
+			manager.completeWorkItem(workItem.getId(), resultados);
+	    }
 	}
 
-	@Override
-	public void abortWorkItem(WorkItem workItem, WorkItemManager manager) {
+	protected Email createEmail(WorkItem workItem, Connection connection) {
+	    Email email = new Email();
+        Message message = new Message();
+        message.setFrom((String) emailConfig.getFrom());
 
+        // Set recipients
+        Recipients recipients = new Recipients();
+        String to = (String) emailConfig.getTo();
+        if ( to == null || to.trim().length() == 0 ) {
+            throw new RuntimeException( "Email must have one or more to adresses" );
+        }
+        for (String s: to.split(";")) {
+            if (s != null && !"".equals(s)) {
+                Recipient recipient = new Recipient();
+                recipient.setEmail(s);
+                recipient.setType( "To" );
+                recipients.addRecipient(recipient);
+            }
+        }
+
+        // Fill message
+        String body = "Correo de verificación del servidor smtp";
+        String template = (String) workItem.getParameter("Template");
+        if (template != null) {            
+            body = templateManager.render(template, workItem.getParameters());
+        }
+        
+        message.setRecipients(recipients);
+        message.setSubject("Prueba de verificación");
+        message.setBody(body);
+
+        // setup email
+        email.setMessage(message);
+        email.setConnection(connection);
+
+        return email;
+	}
+
+	public void abortWorkItem(WorkItem arg0, WorkItemManager arg1) {
+	}
+
+	protected boolean getDebugFlag(WorkItem workItem) {
+	    Object debugParam  = workItem.getParameter("Debug");
+	    if (debugParam == null) {
+	        return false;
+	    }
+	    
+	    return Boolean.parseBoolean(debugParam.toString());
 	}
 
 }
