@@ -14,14 +14,17 @@ import com.jcraft.jsch.Session;
 
 import java.io.InputStream;
 
+/***
+ * WIH para reiniciar un servicio bajo el OS Linux
+ * 
+ * Si el servicio está apagado -> se levanta 
+ * Si está encendido -> se apaga y se vuelve a levantar
+ */
+
 @Component("reinicioServicioLinux")
 public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();
 
-	/***
-	 * Si el servicio está apagado -> se levanta Si está encendido -> se apaga y se
-	 * vuelve a levantar
-	 */
 	public static Boolean executeSshCommand(String ip, int port, String password, String command) {
 		JSch jsch = new JSch();
 		Session session = null;
@@ -40,7 +43,8 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 
 			// Configura el canal para ejecutar comandos
 			channel = (ChannelExec) session.openChannel("exec");
-
+			
+			System.out.println("Ejecución del comando \"service <service> start/stop\"...");
 			channel.setCommand(command);
 
 			// Obtiene la salida del comando
@@ -67,10 +71,11 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 				}
 				Thread.sleep(1000);
 			}
+			
 		} catch (Exception e) {
 			// Si se produce cualquier error -> resultado = false
-			System.out.println("No se ha podido establecer la conexión ssh");
-			//e.printStackTrace();
+			System.out.println("No se ha podido reiniciar el servicio");
+			
 		} finally {
 			if (channel != null) {
 				channel.disconnect();
@@ -116,7 +121,6 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 			manager.completeWorkItem(workItem.getId(), resultados);
 		} else {
 			Map<String,Object> resultados = Map.of("accesoSSH", false);
-			logger.info("NO se ha podido establecer la conexión ssh");
 			manager.completeWorkItem(workItem.getId(), resultados);
 		}
 	}

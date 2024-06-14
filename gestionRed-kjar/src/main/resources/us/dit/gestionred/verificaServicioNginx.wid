@@ -1,0 +1,14 @@
+[
+  [
+    "name" : "verificaServicioNginx", 
+    "parameters" : [ 
+        "dirIP" : new StringDataType(),
+        "servicePort" : new IntegerDataType()
+    ], 
+    "results" : [ 
+        "estadoServicio" : new BooleanDataType() 
+    ], 
+    "displayName" : "verificaServicioNginx", 
+    "icon" : "" 
+  ]
+]

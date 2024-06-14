@@ -14,6 +14,12 @@ import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 import org.springframework.stereotype.Component;
 
+/***
+ * WIH para confirmar que se tiene acceso a una dirección IP
+ * 
+ * ~ ping
+ */
+
 @Component("verificaHostOK")
 public class VerificaHostOK_WIH implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();
