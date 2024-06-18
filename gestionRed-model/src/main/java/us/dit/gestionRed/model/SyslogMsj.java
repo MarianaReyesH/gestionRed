@@ -8,7 +8,7 @@ import java.util.Date;
 public class SyslogMsj {
 	private Date timestamp;
 	private String hostname_client;
-	private String process;
+	private String process_client;
 	private String pid;
 	private String service;
 	private String hostname_service;
@@ -32,11 +32,11 @@ public class SyslogMsj {
 	}
 
 	public String getProcess() {
-		return process;
+		return process_client;
 	}
 
-	public void setProcess(String process) {
-		this.process = process;
+	public void setProcess(String process_client) {
+		this.process_client = process_client;
 	}
 
 	public String getPid() {
