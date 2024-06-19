@@ -52,7 +52,7 @@ public class SignalsController {
 
 		// Se envía la señal al motor KIE
 		logger.info("Enviando una señal al motor KIE");
-		kie.sendSignal("signalGestionRed", syslog_msj);
+		kie.sendSignal("signalErrorRed", syslog_msj);
 
 		return "OK";
 	}

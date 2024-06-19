@@ -1,10 +1,11 @@
 package us.dit.gestionRed.model;
 
 /**
- * Clase para mapear el json que llega de consultaLDAP_WIH
+ * Clase para mapear el json que llega de ConsultaLDAP_WIH
  */
 public class LdapMsj {
 	private String process_service;
+	private int servicePort;
 	private String dirIP;
 	private String os;
 	private String hostname_service;
@@ -18,6 +19,14 @@ public class LdapMsj {
 
 	public void setProcess_service(String process_service) {
 		this.process_service = process_service;
+	}
+	
+	public int getServicePort() {
+		return servicePort;
+	}
+
+	public void setServicePort(int servicePort) {
+		this.servicePort = servicePort;
 	}
 
 	public String getDirIP() {
