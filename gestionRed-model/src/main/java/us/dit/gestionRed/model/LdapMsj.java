@@ -1,7 +1,7 @@
 package us.dit.gestionRed.model;
 
 /**
- * Clase para mapear el json que llega de consultaLDAP_WIH
+ * Clase para mapear el json que llega de ConsultaLDAP_WIH
  */
 public class LdapMsj {
 	private String process_service;

@@ -27,11 +27,11 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 
 	/**
 	 * 
-	 * @param ip
-	 * @param port
-	 * @param password
-	 * @param command
-	 * @return
+	 * @param ip			Dirección de la máquina a gestionar
+	 * @param port 			Puerto donde se está ejecutando el servicio ssh
+	 * @param password		Contraseña para conectarse por ssh
+	 * @param command		Comando a ejecutar en la máquina una vez nos hemos conectado por ssh
+	 * @return				TRUE: si todo ha ido bien; FALSE: si la conexión ssh falla
 	 */
 	public static Boolean executeSshCommand(String ip, int port, String password, String command) {
 		JSch jsch = new JSch();
@@ -95,7 +95,16 @@ public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 
 		return resultado;
 	}
-
+	
+	/**
+	 * 
+	 * @param ip				Dirección de la máquina a gestionar
+	 * @param port 				Puerto donde se está ejecutando el servicio ssh
+	 * @param password			Contraseña para conectarse por ssh
+	 * @param process_service	Servicio a reiniciar
+	 * @param start				TRUE: para encender; FALSE: para apagar
+	 * @return					TRUE: si todo ha ido bien; FALSE: si la conexión ssh falla
+	 */
 	public static Boolean manageSmtpService(String ip, int port, String password, String process_service,
 			boolean start) {
 		String command = start ? "service " + process_service + " start" : "service " + process_service + " stop";
