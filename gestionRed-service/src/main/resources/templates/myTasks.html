@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+	<title th:text="#{tasks.title}"></title>
+</head>
+<body>
+    <p th:text="#{tasks.head}">Tareas pendientes</p>
+    
+    <table class="table" id="taskTable" style="margin-left: auto; margin-right: auto;">
+		<thead>
+			<tr>
+				<th scope="row" th:text="#{tasks.name}">Name</th>
+				<th scope="row" th:text="#{tasks.status}">Status</th>
+				<th scope="row" th:text="#{tasks.id}">Id</th>
+				<th scope="row" th:text="#{tasks.date}">Date</th>
+				<th scope="row" th:text="#{tasks.creator}">Creator</th>
+				<th scope="row" th:text="#{tasks.select}">Select</th>
+				
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="task : ${tasks}">
+				<td th:text="${task.name}">Error</td>
+				<td th:text="${task.status}">Error</td>
+				<td th:text="${task.id}">Error</td>
+				<td th:text="${task.createdOn}">Error</td>
+				<td th:text="${task.createdBy}">Error</td>	
+				<td><button class="button" th:data-url="@{/tareaPendiente/{id}(id=${task.id})}" onclick="window.open(this.getAttribute('data-url'))" th:text="#{tasks.select}">Review</button></td> 		
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tarea Humana</title>
+</head>
+<body>
+    <h1>Tarea Humana: Maquina No Disponible</h1>
+    <form th:action="@{/completeTask/"${taskId}"}" method="post">
+        <div>
+            <label>Dir IP:</label>
+            <input type="text" th:value="${dirIP}" readonly/>
+        </div>
+        <div>
+            <label>Process Service:</label>
+            <input type="text" th:value="${process_service}" readonly/>
+        </div>
+        <div>
+            <label>SSH Port:</label>
+            <input type="text" th:value="${sshPort}" readonly/>
+        </div>
+        <div>
+            <label>SSH Pass:</label>
+            <input type="text" th:value="${sshPass}" readonly/>
+        </div>
+        <div>
+            <label>Resultado (marcar si se ha resuelto la gestión):</label>
+            <input type="checkbox th:id="tareaHumana" th:name="tareaHumana">
+        </div>
+        <div>
+            <label>Mensaje Tarea Humana:</label>
+            <input type="text th:id="msj_tareaHumana" th:name="msj_tareaHumana">
+        </div>
+        <div>
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+</body>
+</html>
+
