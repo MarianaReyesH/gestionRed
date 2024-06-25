@@ -1,8 +1,6 @@
 package us.dit.gestionRed.service.services.kie;
 
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;

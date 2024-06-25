@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.5.15</version>
+			
 			<scope>test</scope>
 		</dependency>
 
@@ -111,13 +111,25 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.5.15</version>
-
-			</plugin>
-		</plugins>
+	        <plugin>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-maven-plugin</artifactId>
+	        </plugin>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-resources-plugin</artifactId>
+	            <version>3.2.0</version>
+	            <executions>
+	                <execution>
+	                    <id>default-resources</id>
+	                    <phase>process-resources</phase>
+	                    <goals>
+	                        <goal>resources</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
+    	</plugins>
 	</build>
 
 	<profiles>
@@ -130,7 +142,6 @@
 				<dependency>
 					<groupId>com.h2database</groupId>
 					<artifactId>h2</artifactId>
-					<version>${version.com.h2database}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -149,7 +160,6 @@
 				<dependency>
 					<groupId>com.h2database</groupId>
 					<artifactId>h2</artifactId>
-					<version>${version.com.h2database}</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
