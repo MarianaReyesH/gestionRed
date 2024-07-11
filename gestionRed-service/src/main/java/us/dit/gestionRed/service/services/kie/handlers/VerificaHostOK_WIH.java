@@ -38,6 +38,7 @@ public class VerificaHostOK_WIH implements WorkItemHandler {
 			InetAddress address = InetAddress.getByName(dirIP);
 			resultado = address.isReachable(timeout);
 		} catch (IOException e) {
+			// Si se produce cualquier error -> resultado = false
 			logger.info("Ha habido algún error:" + e);
 		}
 

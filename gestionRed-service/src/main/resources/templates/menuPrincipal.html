@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Business Application - gestionRed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        .button-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Business Application - gestionRed</h1>
+    <p>Seleccione el servicio</p>
+    <div class="button-container">
+        <button onclick="location.href='/tareasPendientes/gestionRed-kjar.serviceNoDisponible'">maquinaNoResponde</button>
+        <button onclick="location.href='/tareasPendientes/gestionRed-kjar.verificaServicioNginx'">gestionaServicio</button>
+    </div>
+</body>
+</html>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Tarea Humana</title>
+    <title>Detalle de Tarea</title>
 </head>
 <body>
-    <h1>Tarea Humana: Maquina No Disponible</h1>
-    <form th:action="@{/completeTask/"${taskId}"}" method="post">
+    <h1>Detalle de Tarea: maquinaNoDisponible</h1>
+    <form th:action="@{/completeTask/{taskId}/{procesoID}(taskId=${taskId}, procesoID=${procesoID})}" method="post">
         <div>
             <label>Dir IP:</label>
             <input type="text" th:value="${dirIP}" readonly/>

@@ -53,7 +53,7 @@ public class VerificaServicioNginx_WIH implements WorkItemHandler {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 logger.info("Conexión exitosa, el servidor respondió con 200 OK");
 
-                // Leer la respuesta (opcional)
+                // Leer la respuesta
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
                 StringBuilder content = new StringBuilder();
@@ -73,6 +73,7 @@ public class VerificaServicioNginx_WIH implements WorkItemHandler {
 			resultado = true;
 
 		} catch (Exception e) {
+			// Si se produce cualquier error -> resultado = false
 			e.printStackTrace();
 		}
 

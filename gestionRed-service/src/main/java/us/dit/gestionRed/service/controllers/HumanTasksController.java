@@ -35,8 +35,12 @@ public class HumanTasksController {
     @Autowired
     private UserTaskService userTaskService;
     
-    // Proceso -> "gestionRed-kjar.serviceNoDisponible"
-    // Proceso -> "gestionRed-kjar.verificaServicioNginx"
+    // Proceso -> "/tareasPendientes/gestionRed-kjar.serviceNoDisponible"
+    // Proceso -> "/tareasPendientes/gestionRed-kjar.verificaServicioNginx"
+    @GetMapping()
+	public String menu() {
+    	return "menuPrincipal";
+	}
     
     /**
      * 
@@ -51,11 +55,12 @@ public class HumanTasksController {
     	List<TaskSummary> tasksList = null;
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails principal = (UserDetails) auth.getPrincipal();
-		logger.info("Datos de usuario (principal)" + principal);
+		logger.info("Datos de usuario (principal): " + auth.getName());
 		
-        tasksList = review.findTasksToReview(principal.getUsername(), procesoID);
+        tasksList = review.findTasksToReview(auth.getName(), procesoID);
+        logger.info("Lista de tareas: " + tasksList);
         model.addAttribute("tasks", tasksList);
+        model.addAttribute("procesoID", procesoID);
         logger.info("Vuelve de consultar tareas");
 		return "myTasks";
     }
@@ -66,8 +71,8 @@ public class HumanTasksController {
      * @param model
      * @return					HTML donde se presenta detalle de la tarea
      */
-    @GetMapping("/tareaPendiente/{taskId}")
-    public String listarTareaPendienteById(@PathVariable Long taskId, Model model) {
+    @GetMapping("/tareaPendiente/{taskId}/{procesoID}")
+    public String listarTareaPendienteById(@PathVariable Long taskId, @PathVariable String procesoID, Model model) {
     	logger.info("Buscando la tarea " + taskId);
     	
     	Map<String, Object> inputData = userTaskService.getTaskInputContentByTaskId(taskId);
@@ -77,6 +82,7 @@ public class HumanTasksController {
         model.addAttribute("sshPort", inputData.get("sshPort"));
         model.addAttribute("sshPass", inputData.get("sshPass"));
         model.addAttribute("taskId", taskId);
+        model.addAttribute("procesoID", procesoID);
     	
 		TaskInstance task = review.findById(taskId);
 		
@@ -92,17 +98,16 @@ public class HumanTasksController {
      * @param msj_tareaHumana		Msj devuelto del gestor
      * @return						Volvemos al HTML donde se listan todas las tareas pendientes
      */
-    @PostMapping("/completeTask/{taskId}")
-    public String completeTask(@PathVariable Long taskId, @RequestParam Boolean tareaHumana, @RequestParam String msj_tareaHumana) {
+    @PostMapping("/completeTask/{taskId}/{procesoID}")
+    public String completeTask(@PathVariable Long taskId, @PathVariable String procesoID, @RequestParam Boolean tareaHumana, @RequestParam String msj_tareaHumana) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails principal = (UserDetails) auth.getPrincipal();
 		
 		Map<String, Object> outputData = new HashMap<>();
 		outputData.put("tareaHumana", tareaHumana);
 		outputData.put("msj_tareaHumana", msj_tareaHumana);
 	     
-		userTaskService.complete(taskId, principal.getUsername(), outputData);
+		userTaskService.complete(taskId, auth.getName(), outputData);
 	     
-		return "redirect:/tareasPendientes";
+		return "redirect:/tareasPendientes/" + procesoID;
     }
 }
