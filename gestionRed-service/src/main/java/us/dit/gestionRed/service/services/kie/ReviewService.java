@@ -18,7 +18,7 @@ public class ReviewService {
 	@Autowired
 	private KieUtilService kie;
 	
-	public List<TaskSummary> findTasksToReview(String principal, String proceso) {
+	public List<TaskSummary> findTasksToReview(String principal) {
 		logger.info("En findTasksToReview con principal = " + principal);
 
 		List<TaskSummary> taskList = null;
@@ -28,18 +28,19 @@ public class ReviewService {
             UserTaskServicesClient client = kie.getUserTaskServicesClient();
             logger.info("Llamo a FINDTASKS de UserTaskServicesClient con principal= " + principal);
 
-            taskList = client.findTasks(principal, 0, 0);
+            taskList = client.findTasksAssignedAsPotentialOwner(principal, 0, 0);
             logger.info("Numero de tareas encontradas: " + (taskList != null ? taskList.size() : 0));
-
+            
+            /**
             for (TaskSummary summary : taskList) {
                 logger.info("Tarea en estado " + summary.getStatus() + " y del proceso " + summary.getProcessId());
                 if (summary.getProcessId().equals(proceso)) {
                     reservedRevisions.add(summary);
                     logger.info("La incluye en la lista");
                 }
-            }
+            }**/
 
-            for (TaskSummary task : reservedRevisions) {
+            for (TaskSummary task : taskList) {
                 logger.info("Tarea: " + task);
             }
         } catch (Exception e) {
@@ -47,7 +48,7 @@ public class ReviewService {
         }
 		
 		logger.info("Termino findTasksToReview");
-		return reservedRevisions;
+		return taskList;
 	}
 	
 	
@@ -58,9 +59,7 @@ public class ReviewService {
 
 		try {
             UserTaskServicesClient client = kie.getUserTaskServicesClient();
-            logger.info("Llamo a findTaskById de UserTaskServicesClient");
             task = client.findTaskById(taskId);
-            logger.info("Tarea encontrada: " + task);
         } catch (Exception e) {
             logger.error("Error en findById", e);
         }

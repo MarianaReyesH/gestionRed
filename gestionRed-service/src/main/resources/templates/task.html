@@ -2,38 +2,94 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Detalle de Tarea</title>
+    <!-- Autor: Mariana Reyes Henriquez -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        .form-container {
+            display: inline-block;
+            text-align: left;
+            margin-top: 20px;
+        }
+        .form-container div {
+            margin-bottom: 15px;
+        }
+        .form-container label {
+            display: inline-block;
+            width: 200px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="checkbox"] {
+            width: 300px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .form-container button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Detalle de Tarea: maquinaNoDisponible</h1>
-    <form th:action="@{/completeTask/{taskId}/{procesoID}(taskId=${taskId}, procesoID=${procesoID})}" method="post">
-        <div>
-            <label>Dir IP:</label>
-            <input type="text" th:value="${dirIP}" readonly/>
-        </div>
-        <div>
-            <label>Process Service:</label>
-            <input type="text" th:value="${process_service}" readonly/>
-        </div>
-        <div>
-            <label>SSH Port:</label>
-            <input type="text" th:value="${sshPort}" readonly/>
-        </div>
-        <div>
-            <label>SSH Pass:</label>
-            <input type="text" th:value="${sshPass}" readonly/>
-        </div>
-        <div>
-            <label>Resultado (marcar si se ha resuelto la gestión):</label>
-            <input type="checkbox th:id="tareaHumana" th:name="tareaHumana">
-        </div>
-        <div>
-            <label>Mensaje Tarea Humana:</label>
-            <input type="text th:id="msj_tareaHumana" th:name="msj_tareaHumana">
-        </div>
-        <div>
-            <button type="submit">Enviar</button>
-        </div>
-    </form>
+    <h1>Detalle de Tarea: Maquina No Disponible</h1>
+    <div class="form-container">
+        <form th:action="@{/completeTask/{taskId}(taskId=${taskId})}" method="post">
+            <div>
+                <label>Dir IP:</label>
+                <input type="text" th:value="${dirIP}" readonly/>
+            </div>
+            <div>
+                <label>Process Service:</label>
+                <input type="text" th:value="${process_service}" readonly/>
+            </div>
+            <div>
+                <label>SSH Port:</label>
+                <input type="text" th:value="${sshPort}" readonly/>
+            </div>
+            <div>
+                <label>SSH Pass:</label>
+                <input type="text" th:value="${sshPass}" readonly/>
+            </div>
+            <div>
+	            <label>OS:</label>
+	            <input type="text" th:value="${os}" readonly/>
+	        </div>
+	        <div>
+	            <label>Service Port:</label>
+	            <input type="text" th:value="${servicePort}" readonly/>
+	        </div>
+            <div>
+                <label>Tarea Humana:</label>
+                <input type="checkbox" name="tareaHumana" value="true"/>
+            </div>
+            <div>
+                <label>Mensaje Tarea Humana:</label>
+                <input type="text" name="msj_tareaHumana"/>
+            </div>
+            <div>
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
+
 
