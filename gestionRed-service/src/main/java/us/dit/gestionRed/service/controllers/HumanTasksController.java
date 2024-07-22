@@ -151,7 +151,7 @@ public class HumanTasksController {
 	        }
 
 	        // Completar la tarea
-	        client.completeTask(containerId, taskId, userId, outputData);
+	        client.completeTask(containerId, taskId, userId, null);
 	        logger.info("Tarea completada por el usuario: " + userId);
 
 	    } catch (Exception e) {
