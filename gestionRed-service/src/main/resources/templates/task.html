@@ -1,95 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Detalle de Tarea</title>
-    <!-- Autor: Mariana Reyes Henriquez -->
+    <meta charset="UTF-8">
+    <title>Detalle de la Tarea</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        h1, h2 {
             text-align: center;
-            margin-top: 50px;
+            color: #333;
         }
-        h1 {
-            font-size: 24px;
-        }
-        .form-container {
-            display: inline-block;
-            text-align: left;
+
+        form {
             margin-top: 20px;
         }
-        .form-container div {
-            margin-bottom: 15px;
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
         }
-        .form-container label {
-            display: inline-block;
-            width: 200px;
-        }
-        .form-container input[type="text"],
-        .form-container input[type="checkbox"] {
-            width: 300px;
+
+        input[type="text"], input[type="checkbox"] {
+            width: 100%;
             padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
+            box-sizing: border-box;
         }
-        .form-container button {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: #fff;
             text-align: center;
             text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 12px;
+            border-radius: 4px;
         }
-        .form-container button:hover {
-            background-color: #45a049;
+
+        .btn:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <h1>Detalle de Tarea: Maquina No Disponible</h1>
-    <div class="form-container">
-        <form th:action="@{/completeTask/{taskId}(taskId=${taskId})}" method="post">
-            <div>
-                <label>Dir IP:</label>
-                <input type="text" th:value="${dirIP}" readonly/>
-            </div>
-            <div>
-                <label>Process Service:</label>
-                <input type="text" th:value="${process_service}" readonly/>
-            </div>
-            <div>
-                <label>SSH Port:</label>
-                <input type="text" th:value="${sshPort}" readonly/>
-            </div>
-            <div>
-                <label>SSH Pass:</label>
-                <input type="text" th:value="${sshPass}" readonly/>
-            </div>
-            <div>
-	            <label>OS:</label>
-	            <input type="text" th:value="${os}" readonly/>
-	        </div>
-	        <div>
-	            <label>Service Port:</label>
-	            <input type="text" th:value="${servicePort}" readonly/>
-	        </div>
-            <div>
-                <label>Tarea Humana:</label>
-                <input type="checkbox" name="tareaHumana" value="true"/>
-            </div>
-            <div>
-                <label>Mensaje Tarea Humana:</label>
-                <input type="text" name="msj_tareaHumana"/>
-            </div>
-            <div>
-                <button type="submit">Enviar</button>
-            </div>
+    <div class="container">
+        <h1>Business Application - gestionRed</h1>
+        <h2>Detalle de la Tarea</h2>
+        
+        <form th:action="@{'/completeTask/' + ${taskId}}" method="post">
+            <label for="dirIP">Dirección IP</label>
+            <input type="text" id="dirIP" name="dirIP" th:value="${dirIP}" readonly>
+            
+            <label for="process_service">Servicio de Proceso</label>
+            <input type="text" id="process_service" name="process_service" th:value="${process_service}" readonly>
+            
+            <label for="sshPort">Puerto SSH</label>
+            <input type="text" id="sshPort" name="sshPort" th:value="${sshPort}" readonly>
+            
+            <label for="sshPass">Contraseña SSH</label>
+            <input type="text" id="sshPass" name="sshPass" th:value="${sshPass}" readonly>
+            
+            <label for="tareaHumana">Marcar si se ha completado la tarea</label>
+            <input type="checkbox" id="tareaHumana" name="tareaHumana">
+            
+            <label for="msj_tareaHumana">Mensaje de Tarea Humana</label>
+            <input type="text" id="msj_tareaHumana" name="msj_tareaHumana" value="Rellenar...">
+            
+            <button type="submit" class="btn">Completar Tarea</button>
         </form>
+        
+        <a href="/tareasPendientes" class="btn">Volver a Tareas Pendientes</a>
     </div>
 </body>
 </html>
-
-

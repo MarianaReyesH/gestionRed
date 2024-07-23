@@ -9,6 +9,7 @@ import org.kie.server.client.UserTaskServicesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -97,19 +98,22 @@ public class HumanTasksController {
      * 
      * @param taskId				Identificador de la tarea seleccionada para completar
      * @param tareaHumana			Resultado del checkbox (Booleano)
-     * @param msj_tareaHumana		Msj devuelto del gestor
+     * @param msj_tareaHumana		Msj devuelto por el administrador de la red
      * @return						Volvemos al HTML donde se listan todas las tareas pendientes
      */
     @PostMapping("/completeTask/{taskId}")
     public String completeTask(@PathVariable Long taskId, @RequestParam(required = false) Boolean tareaHumana, @RequestParam(required = false) String msj_tareaHumana) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String userId = auth.getName();
+		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//UserDetails principal = (UserDetails) auth.getPrincipal();
+		//String userId = principal.getUsername();
 		
 		UserTaskServicesClient client = kie.getUserTaskServicesClient();
 		
 		try {
 	        // Obtener el estado actual de la tarea
 	        TaskInstance task = review.findById(taskId);
+	        String containerId = task.getContainerId();
+			String userId = task.getActualOwner();
 	        String status = task.getStatus();
 	        logger.info("Estado de la tarea: " + status);
 
@@ -134,13 +138,6 @@ public class HumanTasksController {
 	            logger.error("No se puede completar la tarea porque no está en estado 'InProgress'. Estado actual: " + status);
 	            throw new RuntimeException("No se puede completar la tarea porque no está en estado 'InProgress'");
 	        }
-
-	        // Crear el mapa de datos de salida
-	        Map<String, Object> outputData = new HashMap<>();
-	        outputData.put("tareaHumana", tareaHumana);
-	        outputData.put("msj_tareaHumana", msj_tareaHumana);
-	        logger.info("tareaHumana: " + tareaHumana);
-	        logger.info("msj_tareaHumana: " + msj_tareaHumana);
 	        
 	        // Asignar valores por defecto si son nulos
 	        if (tareaHumana == null) {
@@ -148,10 +145,19 @@ public class HumanTasksController {
 	        }
 	        if (msj_tareaHumana == null) {
 	            msj_tareaHumana = "No se ha enviado ningún msj.";
+	        }else {
+	        	logger.info("NO es null, msj_tareaHumana: " + msj_tareaHumana);
 	        }
+	        
+	        // Crear el mapa de datos de salida
+	        Map<String, Object> outputData = new HashMap<String, Object>();
+	        outputData.put("tareaHumana", tareaHumana);
+	        outputData.put("msj_tareaHumana", msj_tareaHumana);
+	        logger.info("tareaHumana: " + tareaHumana);
+	        logger.info("msj_tareaHumana: " + msj_tareaHumana);
 
 	        // Completar la tarea
-	        client.completeTask(containerId, taskId, userId, null);
+	        client.completeTask(containerId, taskId, userId, outputData);
 	        logger.info("Tarea completada por el usuario: " + userId);
 
 	    } catch (Exception e) {

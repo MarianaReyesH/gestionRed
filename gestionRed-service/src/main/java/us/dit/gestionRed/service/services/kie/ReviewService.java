@@ -30,15 +30,6 @@ public class ReviewService {
 
             taskList = client.findTasksAssignedAsPotentialOwner(principal, 0, 0);
             logger.info("Numero de tareas encontradas: " + (taskList != null ? taskList.size() : 0));
-            
-            /**
-            for (TaskSummary summary : taskList) {
-                logger.info("Tarea en estado " + summary.getStatus() + " y del proceso " + summary.getProcessId());
-                if (summary.getProcessId().equals(proceso)) {
-                    reservedRevisions.add(summary);
-                    logger.info("La incluye en la lista");
-                }
-            }**/
 
             for (TaskSummary task : taskList) {
                 logger.info("Tarea: " + task);
