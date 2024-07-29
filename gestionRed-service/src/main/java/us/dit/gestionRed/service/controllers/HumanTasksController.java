@@ -103,50 +103,18 @@ public class HumanTasksController {
      */
     @PostMapping("/completeTask/{taskId}")
     public String completeTask(@PathVariable Long taskId, @RequestParam(required = false) Boolean tareaHumana, @RequestParam(required = false) String msj_tareaHumana) {
-		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		//UserDetails principal = (UserDetails) auth.getPrincipal();
-		//String userId = principal.getUsername();
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		logger.info("Datos de usuario (principal): " + auth.getName());
 		
 		UserTaskServicesClient client = kie.getUserTaskServicesClient();
 		
-		try {
-	        // Obtener el estado actual de la tarea
-	        TaskInstance task = review.findById(taskId);
-	        String containerId = task.getContainerId();
-			String userId = task.getActualOwner();
-	        String status = task.getStatus();
-	        logger.info("Estado de la tarea: " + status);
-
-	        // Manejar diferentes estados de la tarea
-	        if ("Ready".equals(status)) {
-	            // Reclamar la tarea
-	        	client.claimTask(containerId, taskId, userId);
-	            logger.info("Tarea reclamada por el usuario: " + userId);
-	            client.startTask(containerId, taskId, userId);
-	            logger.info("Tarea iniciada por el usuario: " + userId);
-	        } else if ("Reserved".equals(status) || "Created".equals(status)) {
-	        	client.startTask(containerId, taskId, userId);
-	            logger.info("Tarea iniciada por el usuario: " + userId);
-	        }
-
-	        // Verificar si la tarea está ahora en estado 'InProgress'
-	        task = review.findById(taskId);
-	        status = task.getStatus();
-	        logger.info("Nuevo estado de la tarea: " + status);
-
-	        if (!"InProgress".equals(status)) {
-	            logger.error("No se puede completar la tarea porque no está en estado 'InProgress'. Estado actual: " + status);
-	            throw new RuntimeException("No se puede completar la tarea porque no está en estado 'InProgress'");
-	        }
-	        
+		try {	        
 	        // Asignar valores por defecto si son nulos
 	        if (tareaHumana == null) {
 	            tareaHumana = false;
 	        }
 	        if (msj_tareaHumana == null) {
 	            msj_tareaHumana = "No se ha enviado ningún msj.";
-	        }else {
-	        	logger.info("NO es null, msj_tareaHumana: " + msj_tareaHumana);
 	        }
 	        
 	        // Crear el mapa de datos de salida
@@ -157,8 +125,9 @@ public class HumanTasksController {
 	        logger.info("msj_tareaHumana: " + msj_tareaHumana);
 
 	        // Completar la tarea
-	        client.completeTask(containerId, taskId, userId, outputData);
-	        logger.info("Tarea completada por el usuario: " + userId);
+	        client.startTask(containerId, taskId, auth.getName());
+	        client.completeTask(containerId, taskId, auth.getName(), outputData);
+	        logger.info("Tarea completada por el usuario: " + auth.getName());
 
 	    } catch (Exception e) {
 	        logger.error("Error al completar la tarea: " + e.getMessage());
