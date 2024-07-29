@@ -2,12 +2,16 @@
   [
     "name" : "consultaLDAP", 
     "parameters" : [ 
-        "MyFirstParam" : new StringDataType(), 
-        "MySecondParam" : new StringDataType(), 
-        "MyThirdParam" : new ObjectDataType() 
+        "process_service" : new StringDataType(), 
+        "servicePort" : new IntegerDataType(),
+        "dirIP" : new StringDataType(),
+        "os" : new StringDataType(),
+        "hostname_service" : new StringDataType(),
+        "sshPort" : new IntegerDataType(),
+        "sshPass" : new StringDataType(),
     ], 
     "results" : [ 
-        "accesoMaquina" : new BooleanDataType() 
+        "accesoSSH" : new BooleanDataType() 
     ], 
     "displayName" : "consultaLDAP", 
     "icon" : "" 

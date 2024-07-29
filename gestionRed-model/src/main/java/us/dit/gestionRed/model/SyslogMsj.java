@@ -1,11 +1,14 @@
 package us.dit.gestionRed.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Clase para mapear los json que llegan desde logstash
  */
-public class SyslogMsj {
+public class SyslogMsj implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private Date timestamp;
 	private String hostname_client;
 	private String process_client;

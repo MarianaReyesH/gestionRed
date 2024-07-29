@@ -1,9 +1,13 @@
 package us.dit.gestionRed.model;
 
+import java.io.Serializable;
+
 /**
  * Clase para mapear el json que llega de ConsultaLDAP_WIH
  */
-public class LdapMsj {
+public class LdapMsj implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private String process_service;
 	private int servicePort;
 	private String dirIP;
