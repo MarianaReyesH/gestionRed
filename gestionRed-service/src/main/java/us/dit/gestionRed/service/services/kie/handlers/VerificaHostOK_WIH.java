@@ -13,12 +13,10 @@ import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 import org.springframework.stereotype.Component;
 
-/***
- * WIH para confirmar que se tiene acceso a una dirección IP
- * 
- * ~ ping
- */
-
+/**
+* 	WIH para confirmar que se tiene acceso a una dirección IP (~ping)
+*	@author Mariana Reyes Henriquez
+*/
 @Component("verificaHostOK")
 public class VerificaHostOK_WIH implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();
@@ -35,8 +33,12 @@ public class VerificaHostOK_WIH implements WorkItemHandler {
 
 		// Comprobar el acceso a la máquina
 		try {
-			InetAddress address = InetAddress.getByName(dirIP);
-			resultado = address.isReachable(timeout);
+			if (dirIP == null) {
+				logger.info("La dirección IP no puede ser null");
+			} else {
+				InetAddress address = InetAddress.getByName(dirIP);
+				resultado = address.isReachable(timeout);
+			}
 		} catch (IOException e) {
 			// Si se produce cualquier error -> resultado = false
 			logger.info("Ha habido algún error:" + e);

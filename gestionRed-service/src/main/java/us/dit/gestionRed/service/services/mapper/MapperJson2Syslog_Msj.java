@@ -8,6 +8,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import us.dit.gestionRed.model.SyslogMsj;
 
+/**
+* 	Servicio para mapear un JSON a un objeto SyslogMsj
+*	@author Mariana Reyes Henriquez
+*/
 @Service
 public class MapperJson2Syslog_Msj {
 	private static final Logger logger = LogManager.getLogger();

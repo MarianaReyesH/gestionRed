@@ -5,6 +5,7 @@ import java.util.Date;
 
 /**
  * Clase para mapear los json que llegan desde logstash
+ * @author Mariana Reyes Henriquez
  */
 public class SyslogMsj implements Serializable{
 	

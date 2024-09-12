@@ -26,7 +26,10 @@ import org.apache.directory.api.ldap.model.cursor.SearchCursor;
 
 import us.dit.gestionRed.model.LdapMsj;
 
-
+/**
+* 	WIH para realizar una consulta al servidor LDAP
+*	@author Mariana Reyes Henriquez
+*/
 @Component("consultaLDAP")
 public class ConsultaLDAP_WIH implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();
@@ -37,66 +40,8 @@ public class ConsultaLDAP_WIH implements WorkItemHandler {
 	@Value("${gestionRed.ldap.port}")
 	private int ldapPort;
 	
-	
-	/**
-	 * Método para realizar una consulta más compleja
-	 * @param connection
-	 * @throws Exception
-	 */
-	private static void queryWithSearchRequest(LdapNetworkConnection connection) throws Exception
-    {
-		logger.info("CONSULTA CON SEARCHREQUEST");
-		LdapMsj msj_ldap = new LdapMsj();
-		
-        // Create the SearchRequest object
-        SearchRequest req = new SearchRequestImpl();
-        req.setScope( SearchScope.SUBTREE );
-        req.addAttributes( "process_service", "servicePort", "dirIP", "os", "hostname_service", "sshPort", "sshPass" ); // ???
-        req.setTimeLimit( 0 );
-        req.setBase( new Dn( "ou=services,dc=capital") );
-        req.setFilter( "(cn=postgres)" );
-
-        // Process the request
-        try ( SearchCursor searchCursor = connection.search(req) ) 
-        {
-            while ( searchCursor.next() )
-            {
-                Response response = searchCursor.get();
-                
-                // process the SearchResultEntry
-                if ( response instanceof SearchResultEntry )
-                {
-                    Entry entry = ( ( SearchResultEntry ) response ).getEntry();
-                    
-                    Attribute process_service = entry.get("process_service");
-    				Attribute servicePort = entry.get("servicePort");
-    				Attribute dirIP_ldap = entry.get("dirIP");
-    				Attribute os = entry.get("os");
-    				Attribute hostname_service_ldap = entry.get("hostname_service");
-    				Attribute sshPort = entry.get("sshPort");
-    				Attribute sshPass = entry.get("sshPass");
-    				
-    				logger.info("El atributo process_service es: " + process_service);
-    				
-    				msj_ldap.setProcess_service(process_service.getString());
-    				msj_ldap.setServicePort(Integer.parseInt(servicePort.getString()));
-    				msj_ldap.setDirIP(dirIP_ldap.getString());
-    				msj_ldap.setOs(os.getString());
-    				msj_ldap.setHostname_service(hostname_service_ldap.getString());
-    				msj_ldap.setSshPort(Integer.parseInt(sshPort.getString()));
-    				msj_ldap.setSshPass(sshPass.getString());
-    				
-                    Collection<Attribute> allAttributes = entry.getAttributes();
-					int count=1;
-					for(Attribute att:allAttributes){
-						logger.info("El atributo #" + count + " es: " + att);
-						count++;
-					}
-                    logger.info( entry );
-                }
-            }
-        }
-    }
+	@Value("${gestionRed.ldap.sshPass}")
+	private String sshPass;
 	
 
 	@Override
@@ -104,62 +49,74 @@ public class ConsultaLDAP_WIH implements WorkItemHandler {
 		logger.info("Se está ejecutando ConsultaLDAP_WIH con los detalles de workItem " + workItem);
 		
 		Map<String,Object> parametros = workItem.getParameters();
-		String dirIP = (String) parametros.get("dirIP");
 		String service = (String) parametros.get("service");
-		String hostname_service = (String) parametros.get("hostname_service");
-		
+		logger.info("service: " + service);
 		LdapMsj msj_ldap = new LdapMsj();
 		
-		logger.info("Direccion IP a comprobar: " + dirIP);
-		
 		// Realizar consula al servidor de LDAP
+		logger.info("ldapServer: " + ldapServer);
+		logger.info("ldapPort: " + ldapPort);
 		LdapNetworkConnection connection = new LdapNetworkConnection(ldapServer, ldapPort);
 		try {
 			connection.bind();
 			if (connection.isConnected())
 				logger.info("Creada sesión");
-			Dn dn=new Dn("ou=services,dc=capital");
+			Dn dn = new Dn("dc=capital");
+			String cn = service.replace("service", "");
+			logger.info("CN: " + cn);
+			
 			/**
 			 * SearchScope.OBJECT : return the entry for a given DN, if it exists.	
 			 * SearchScope.SUBTREE : return all the elements starting from the given DN, including the element associated with the DN, whatever the depth of the tree	
 			 */
-			EntryCursor cursor = connection.search(dn, "(objectclass=*)", SearchScope.SUBTREE);
-			{
-				for (Entry entry : cursor) {
-					logger.info(entry);
-					Attribute process_service = entry.get("process_service");
-					Attribute servicePort = entry.get("servicePort");
-					Attribute dirIP_ldap = entry.get("dirIP");
-					Attribute os = entry.get("os");
-					Attribute hostname_service_ldap = entry.get("hostname_service");
-					Attribute sshPort = entry.get("sshPort");
-					Attribute sshPass = entry.get("sshPass");
-					
-					logger.info("El atributo process_service es: " + process_service);
-					
-					msj_ldap.setProcess_service(process_service.getString());
-					msj_ldap.setServicePort(Integer.parseInt(servicePort.getString()));
-					msj_ldap.setDirIP(dirIP_ldap.getString());
-					msj_ldap.setOs(os.getString());
-					msj_ldap.setHostname_service(hostname_service_ldap.getString());
-					msj_ldap.setSshPort(Integer.parseInt(sshPort.getString()));
-					msj_ldap.setSshPass(sshPass.getString());
-					
-					
-					Collection<Attribute> allAttributes = entry.getAttributes();
-					int count=1;
-					for(Attribute att:allAttributes){
-						logger.info("El atributo #" + count + " es: " + att);
-						count++;
-					}
-				}
-				
-			}
-			
-			//queryWithSearchRequest(connection);	
+			logger.info("CONSULTA CON SEARCHREQUEST");
+	        // Create the SearchRequest object
+	        SearchRequest req = new SearchRequestImpl();
+	        req.setScope( SearchScope.SUBTREE );
+	        req.addAttributes( "jbpm-servicePort", "jbpm-dirIP", "jbpm-so-distribution", "jbpm-sshPort" );
+	        req.setTimeLimit( 0 );
+	        req.setBase( dn );
+	        // Siempre llega: nombreservice (se queda con el nombre)
+	        req.setFilter( "(cn=" + cn + ")" );
+
+	        // Process the request
+	        try ( SearchCursor searchCursor = connection.search(req) ) 
+	        {
+	            while ( searchCursor.next() )
+	            {
+	                Response response = searchCursor.get();
+	                // process the SearchResultEntry
+	                if ( response instanceof SearchResultEntry )
+	                {
+	                    Entry entry = ( ( SearchResultEntry ) response ).getEntry();
+	                    
+	    				Attribute servicePort = entry.get("jbpm-servicePort");
+	    				Attribute dirIP = entry.get("jbpm-dirIP");
+	    				Attribute os = entry.get("jbpm-so-distribution");
+	    				//Attribute hostname_service = entry.get("hostname_service");
+	    				Attribute sshPort = entry.get("jbpm-sshPort");
+	    				
+	    				logger.info(servicePort);
+	    				logger.info(dirIP);
+	    				logger.info(os);
+	    				logger.info("hostname_service: " + " ");
+	    				logger.info(sshPort);
+	    				logger.info("sshPass: " + sshPass);
+	    				
+	    				msj_ldap.setProcess_service(cn);
+	    				msj_ldap.setServicePort(Integer.parseInt(servicePort.getString()));
+	    				msj_ldap.setDirIP(dirIP.getString());
+	    				msj_ldap.setOs(os.getString());
+	    				msj_ldap.setHostname_service(" ");
+	    				msj_ldap.setSshPort(Integer.parseInt(sshPort.getString()));
+	    				msj_ldap.setSshPass(sshPass);
+	                }
+	            }
+	        }	
 			connection.unBind();
 			if (!connection.isConnected())
 				logger.info("Cerrada sesión");
+			connection.close();
 		} catch (Exception e) {
 			logger.info("Error iniciando sesión o haciendo consulta");
 			e.printStackTrace();

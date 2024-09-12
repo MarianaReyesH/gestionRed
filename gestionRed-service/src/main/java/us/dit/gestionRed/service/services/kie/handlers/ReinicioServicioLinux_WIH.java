@@ -14,13 +14,12 @@ import com.jcraft.jsch.Session;
 
 import java.io.InputStream;
 
-/***
- * WIH para reiniciar un servicio bajo el OS Linux
- * 
- * Si el servicio está apagado -> se levanta Si está encendido -> se apaga y se
- * vuelve a levantar
- */
-
+/**
+* 	WIH para reiniciar un servicio bajo el OS Linux
+* 	Si el servicio está apagado -> se levanta 
+* 	Si está encendido -> se apaga y se vuelve a levantar
+*	@author Mariana Reyes Henriquez
+*/
 @Component("reinicioServicioLinux")
 public class ReinicioServicioLinux_WIH implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();

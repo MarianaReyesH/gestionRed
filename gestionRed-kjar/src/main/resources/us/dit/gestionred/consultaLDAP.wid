@@ -2,16 +2,10 @@
   [
     "name" : "consultaLDAP", 
     "parameters" : [ 
-        "process_service" : new StringDataType(), 
-        "servicePort" : new IntegerDataType(),
-        "dirIP" : new StringDataType(),
-        "os" : new StringDataType(),
-        "hostname_service" : new StringDataType(),
-        "sshPort" : new IntegerDataType(),
-        "sshPass" : new StringDataType(),
+        "service" : new StringDataType()
     ], 
     "results" : [ 
-        "accesoSSH" : new BooleanDataType() 
+        "msj_ldap" : new ObjectDataType("us.dit.gestionRed.model.LdapMsj")
     ], 
     "displayName" : "consultaLDAP", 
     "icon" : "" 
