@@ -1,0 +1,20 @@
+package us.dit.gestionred;
+
+import java.lang.String;
+import us.dit.gestionRed.model.LdapMsj;
+
+rule "Normalize OS to linux"
+    dialect "mvel"
+    when
+        mensaje : LdapMsj( os == "LINUX" || os == "Linux" || os == "linux" )
+    then
+        mensaje.setOs( "linux" );
+end
+
+rule "Set OS to OTHER"
+    dialect "mvel"
+    when
+        mensaje : LdapMsj( os != "linux" && os != "LINUX" && os != "Linux" )
+    then
+        mensaje.setOs( "OTHER" );
+end
