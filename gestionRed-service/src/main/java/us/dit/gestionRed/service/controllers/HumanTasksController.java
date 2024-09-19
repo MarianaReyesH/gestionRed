@@ -2,14 +2,12 @@ package us.dit.gestionRed.service.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jbpm.services.api.UserTaskService;
 import org.kie.server.api.model.instance.TaskInstance;
 import org.kie.server.api.model.instance.TaskSummary;
 import org.kie.server.client.UserTaskServicesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-
-import javax.servlet.http.HttpSession;
-
+/**
+* 	Controlador para la gestión de las tareas humanas
+*	@author Mariana Reyes Henriquez
+*/
 @Controller
 public class HumanTasksController {
 	private static final Logger logger = LogManager.getLogger();
@@ -46,12 +45,11 @@ public class HumanTasksController {
     
     /**
      * 
-     * @param session
-     * @param model
+     * @param model			Utilizado para añadir atributos al modelo
      * @return				HTML donde se presentan todas las tareas pendientes
      */
     @GetMapping("/tareasPendientes")
-    public String listarTareasPendientes(HttpSession session, Model model) {
+    public String listarTareasPendientes(Model model) {
     	logger.info("Buscando todas las tareas pendientes del usuario...");
     	
     	List<TaskSummary> tasksList = null;
@@ -69,8 +67,8 @@ public class HumanTasksController {
     /**
      * 
      * @param taskId			Identificador de la tarea que se selecciona en el HTML
-     * @param model
-     * @return					HTML donde se presenta detalle de la tarea
+     * @param model				Utilizado para añadir atributos al modelo
+     * @return					HTML donde se presenta el detalle de la tarea
      */
     @GetMapping("/tareaPendiente/{taskId}")
     public String listarTareaPendienteById(@PathVariable Long taskId, Model model) {
@@ -97,7 +95,7 @@ public class HumanTasksController {
     /**
      * 
      * @param taskId				Identificador de la tarea seleccionada para completar
-     * @param tareaHumana			Resultado del checkbox (Booleano)
+     * @param tareaHumana			Resultado del checkbox (Booleano)indicando si se ha completado la tarea por parte del administrador de la red
      * @param msj_tareaHumana		Msj devuelto por el administrador de la red
      * @return						Volvemos al HTML donde se listan todas las tareas pendientes
      */
@@ -109,7 +107,7 @@ public class HumanTasksController {
 		UserTaskServicesClient client = kie.getUserTaskServicesClient();
 		
 		try {	        
-	        // Asignar valores por defecto si son nulos
+	        // Asignar valores por defecto si no se marcan/rellenan
 	        if (tareaHumana == null) {
 	            tareaHumana = false;
 	        }

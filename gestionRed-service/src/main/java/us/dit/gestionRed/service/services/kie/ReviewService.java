@@ -1,7 +1,6 @@
 package us.dit.gestionRed.service.services.kie;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +10,10 @@ import org.kie.server.client.UserTaskServicesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+* 	Servicio para interaccionar con los métodos de UserTaskServicesClient
+*	@author Mariana Reyes Henriquez
+*/
 @Service
 public class ReviewService {
 	private static final Logger logger = LogManager.getLogger();
@@ -18,11 +21,15 @@ public class ReviewService {
 	@Autowired
 	private KieUtilService kie;
 	
+	/**
+	 * 
+	 * @param principal			Usuario con el que se ha iniciado sesión
+	 * @return					Lista de tareas pendientes por principal
+	 */
 	public List<TaskSummary> findTasksToReview(String principal) {
 		logger.info("En findTasksToReview con principal = " + principal);
 
 		List<TaskSummary> taskList = null;
-		List<TaskSummary> reservedRevisions = new ArrayList<TaskSummary>();
 
 		try {
             UserTaskServicesClient client = kie.getUserTaskServicesClient();
@@ -43,6 +50,11 @@ public class ReviewService {
 	}
 	
 	
+	/**
+	 * 
+	 * @param taskId			Identificador de la tarea a buscar
+	 * @return					Instancia de la tarea con id = taskId
+	 */
 	public TaskInstance findById(Long taskId) {
 		logger.info("En findById de ReviewService");
 

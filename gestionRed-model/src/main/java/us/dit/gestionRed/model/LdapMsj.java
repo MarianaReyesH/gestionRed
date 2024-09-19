@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Clase para mapear el json que llega de ConsultaLDAP_WIH
+ * @author Mariana Reyes Henriquez
  */
 public class LdapMsj implements Serializable{
 	

@@ -18,12 +18,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/***
- * WIH para confirmar el correcto funcionamiento del Servidor Web NGINX
- * 
- * Se envía una petición HTTP y se espera una respuesta 200 OK
- */
-
+/**
+* 	WIH para confirmar el correcto funcionamiento del Servidor Web NGINX
+* 	Se envía una petición HTTP y se espera una respuesta 200 OK
+*	@author Mariana Reyes Henriquez
+*/
 @Component("verificaServicioNginx")
 public class VerificaServicioNginx_WIH implements WorkItemHandler {
 	private static final Logger logger = LogManager.getLogger();

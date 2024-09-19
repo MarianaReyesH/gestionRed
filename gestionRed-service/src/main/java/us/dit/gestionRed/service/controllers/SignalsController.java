@@ -18,8 +18,9 @@ import us.dit.gestionRed.service.services.kie.KieUtilService;
 import us.dit.gestionRed.service.services.mapper.MapperJson2Syslog_Msj;
 
 /**
- * Controlador que captura las señales de gestión
- */
+* 	Controlador que captura las señales de gestión que llegan desde Logstash
+*	@author Mariana Reyes Henriquez
+*/
 @RestController
 @RequestMapping("/signals")
 public class SignalsController {
@@ -38,10 +39,9 @@ public class SignalsController {
 		 */
 		logger.info("LLEGA EL MSJ DEL LOGSTASH:" + msj_logstash + "\r\n");
 
-		// Se mapea el msj que llega de logstash (un json) al objeto Java Signal
+		// Se mapea el msj que llega de logstash (un json) al objeto SyslogMsj
 		SyslogMsj syslog_msj = mapper.json2Signal(msj_logstash);
 
-		// Imprime los valores mapeados
 		logger.info("Timestamp: " + syslog_msj.getTimestamp() + "\r\n");
 		logger.info("Hostname_client: " + syslog_msj.getHostname_client() + "\r\n");
 		logger.info("Process: " + syslog_msj.getProcess() + "\r\n");
